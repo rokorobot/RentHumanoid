@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RentHumanoid — Models & Talent</title>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bone:#EFE9DE; --ink:#16130F; --ox:#5B1A18; --sage:#A9B39A; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bone); color:var(--ink); font-family:"Hanken Grotesk",sans-serif; font-size:14px; overflow-x:hidden; }
+  header { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; padding:22px 36px; font-size:12px; text-transform:uppercase; letter-spacing:.14em; }
+  header nav { display:flex; gap:26px; }
+  header nav:last-child { justify-content:flex-end; }
+  header a { color:inherit; text-decoration:none; }
+  header a:hover { color:var(--ox); }
+  .logo { font-family:"Bodoni Moda"; font-size:22px; letter-spacing:.32em; text-transform:uppercase; font-weight:500; }
+
+  .hero { padding:40px 36px 20px; display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:end; border-bottom:1px solid var(--ink); }
+  .hero h1 { font-family:"Bodoni Moda"; font-weight:400; font-size:clamp(64px,9vw,150px); line-height:.86; letter-spacing:-.03em; }
+  .hero h1 i { color:var(--ox); }
+  .hero p { max-width:40ch; font-size:16px; line-height:1.55; justify-self:end; margin-bottom:12px; }
+  .hero p small { display:block; margin-top:14px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; }
+
+  .filters { display:flex; gap:10px; padding:18px 36px; border-bottom:1px solid var(--ink); font-size:11px; text-transform:uppercase; letter-spacing:.14em; }
+  .filters button { font:inherit; background:none; border:1px solid var(--ink); border-radius:99px; padding:6px 14px; cursor:pointer; color:var(--ink); }
+  .filters button.on { background:var(--ink); color:var(--bone); }
+  .filters span { margin-left:auto; align-self:center; }
+
+  .roster { list-style:none; }
+  .roster li { display:grid; grid-template-columns:70px 1fr 220px 220px 140px; align-items:baseline; padding:12px 36px; border-bottom:1px solid #16130F33; cursor:pointer; position:relative; }
+  .roster .no { font-size:11px; letter-spacing:.1em; }
+  .roster .nm { font-family:"Bodoni Moda"; font-size:clamp(44px,5.4vw,84px); line-height:1; letter-spacing:-.02em; transition:transform .35s cubic-bezier(.2,.7,.2,1), color .2s; }
+  .roster .meta { font-size:12px; letter-spacing:.06em; text-transform:uppercase; }
+  .roster .rate { text-align:right; font-family:"Bodoni Moda"; font-size:22px; font-style:italic; }
+  .eu { font-family:"Hanken Grotesk"; font-style:normal; font-size:.8em; margin-right:2px; }
+  .roster li:hover .nm { transform:translateX(24px); color:var(--ox); font-style:italic; }
+  .roster li:hover { background:#E6DFD1; }
+
+  .comp { position:fixed; width:300px; pointer-events:none; opacity:0; transform:rotate(-2deg) scale(.96); transition:opacity .2s, transform .25s; z-index:10; background:#FBF8F2; padding:12px 12px 14px; box-shadow:0 24px 50px -18px #16130F66; }
+  .comp.show { opacity:1; transform:rotate(-2deg) scale(1); }
+  .comp .pic { aspect-ratio:4/5; background:var(--sage); overflow:hidden; }
+  .comp .pic svg { width:100%; height:100%; display:block; }
+  .comp h3 { font-family:"Bodoni Moda"; font-size:30px; font-weight:500; margin:10px 0 6px; }
+  .comp dl { display:grid; grid-template-columns:auto 1fr; gap:3px 12px; font-size:11px; text-transform:uppercase; letter-spacing:.08em; }
+  .comp dt { color:#7a7368; }
+
+  .board { display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-bottom:1px solid var(--ink); }
+  .card { padding:24px; border-right:1px solid var(--ink); }
+  .card:last-child { border-right:0; }
+  .card .pic { aspect-ratio:3/4; overflow:hidden; }
+  .card .pic svg { width:100%; height:100%; display:block; }
+  .card .row { display:flex; justify-content:space-between; align-items:baseline; margin-top:12px; }
+  .card h4 { font-family:"Bodoni Moda"; font-weight:500; font-size:28px; }
+  .card .tag { font-size:10px; letter-spacing:.14em; text-transform:uppercase; }
+  .card p { font-size:13px; line-height:1.5; margin-top:6px; color:#3d372f; }
+
+  .quote { padding:80px 36px; display:grid; grid-template-columns:1fr 2fr; gap:40px; border-bottom:1px solid var(--ink); }
+  .quote .k { font-size:11px; text-transform:uppercase; letter-spacing:.14em; }
+  .quote blockquote { font-family:"Bodoni Moda"; font-size:clamp(28px,3.4vw,52px); line-height:1.12; font-style:italic; }
+  .quote cite { display:block; font-family:"Hanken Grotesk"; font-style:normal; font-size:12px; letter-spacing:.14em; text-transform:uppercase; margin-top:22px; }
+  .book { display:flex; justify-content:space-between; align-items:center; padding:28px 36px 40px; }
+  .book a { font-family:"Bodoni Moda"; font-size:clamp(36px,4.5vw,72px); color:var(--ink); text-decoration:none; border-bottom:2px solid var(--ink); }
+  .book a:hover { color:var(--ox); border-color:var(--ox); font-style:italic; }
+  .book small { font-size:11px; text-transform:uppercase; letter-spacing:.14em; text-align:right; line-height:1.8; }
+</style>
+</head>
+<body>
+<header>
+  <nav><a href="#">Talent</a><a href="#">New faces</a><a href="#">Bookings</a></nav>
+  <div class="logo">RentHumanoid</div>
+  <nav><a href="#">Agency</a><a href="#">Become a client</a></nav>
+</header>
+
+<section class="hero">
+  <h1>Models &amp;<br><i>Talent</i>,<br>by the hour.</h1>
+  <p>A small, carefully represented roster of humanoids for homes, hotels, warehouses and events. Each with a book, a temperament and a human agent who answers the phone.<small>Rotterdam · Antwerp · Lille · Leeds</small></p>
+</section>
+
+<div class="filters">
+  <button class="on">All talent</button><button>Hospitality</button><button>Heavy work</button><button>Domestic</button><button>Events</button>
+  <span>12 represented · 4 shown</span>
+</div>
+
+<ul class="roster" id="roster"></ul>
+<div class="comp" id="comp"><div class="pic"></div><h3></h3><dl></dl></div>
+
+<section class="board" id="board"></section>
+
+<section class="quote">
+  <div class="k">Client notes · Hotel Pulitzer</div>
+  <blockquote>"We booked Margot for a gala of four hundred. She remembered every allergy, never once looked at her phone, and the guests asked if she was available for their weddings."<cite>— Banqueting manager, Amsterdam</cite></blockquote>
+</section>
+
+<div class="book">
+  <a href="#">Request a booking →</a>
+  <small>Minimum booking 4 hours<br>Agent replies within 60 minutes<br>Insured · supervised · no ladders</small>
+</div>
+
+<script>
+// Each portrait: abstract head/shoulders, distinct palette + head geometry
+const talent = [
+  {n:"Margot", no:"01", model:"MR-4 Maître", role:"Hospitality", h:"174 cm", grip:"Gentle (6 kg)", lang:"11 languages", eyes:"Stereo, warm", rate:"€54", bg:"#A9B39A", fg:"#2E3A2A", head:"oval", note:"Silver service, coat check, the long dinner. Has a very good memory for faces."},
+  {n:"Bruno", no:"02", model:"HX-2 Porter", role:"Heavy work", h:"178 cm", grip:"25 kg", lang:"4 languages", eyes:"LiDAR", rate:"€38", bg:"#C98B5E", fg:"#3B1E10", head:"square", note:"Moves, pallets, festival builds. Quiet. Starts early, never mentions it."},
+  {n:"Ines", no:"03", model:"DM-3 Domestic", role:"Domestic", h:"165 cm", grip:"12 kg", lang:"7 languages", eyes:"Stereo", rate:"€42", bg:"#D9C9A8", fg:"#5B1A18", head:"tall", note:"Laundry, dishes, plants, the cupboard. Folds a fitted sheet. Yes, really."},
+  {n:"Otto", no:"04", model:"QL-1 Queuer", role:"Events", h:"170 cm", grip:"2 kg", lang:"3 languages", eyes:"Mono", rate:"€19", bg:"#8E9DB0", fg:"#16202C", head:"round", note:"Stands in line on your behalf. Record: eleven hours, Paris passport office."},
+];
+const portrait = t => {
+  const heads = { oval:'<ellipse cx="120" cy="118" rx="44" ry="56"/>', square:'<rect x="74" y="64" width="92" height="104" rx="18"/>', tall:'<rect x="84" y="50" width="72" height="122" rx="36"/>', round:'<circle cx="120" cy="116" r="52"/>' };
+  return `<svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice">
+    <rect width="240" height="300" fill="${t.bg}"/>
+    <circle cx="190" cy="60" r="70" fill="${t.fg}" opacity=".08"/>
+    <path d="M30 300 C40 230 80 205 120 205 C160 205 200 230 210 300 Z" fill="${t.fg}"/>
+    <rect x="106" y="160" width="28" height="50" fill="${t.fg}" opacity=".85"/>
+    <g fill="${t.fg}">${heads[t.head]}</g>
+    <rect x="${t.head==='square'?86:92}" y="104" width="${t.head==='square'?68:56}" height="14" rx="7" fill="${t.bg}" opacity=".9"/>
+    <path d="M60 250 Q120 236 180 250" stroke="${t.bg}" stroke-width="2" fill="none" opacity=".4"/>
+  </svg>`; };
+const roster = document.getElementById('roster');
+roster.innerHTML = talent.map((t,i)=>`<li data-i="${i}"><span class="no">№ ${t.no}</span><span class="nm">${t.n}</span><span class="meta">${t.model}</span><span class="meta">${t.role} · ${t.h}</span><span class="rate"><span class="eu">€</span>${t.rate.slice(1)} / h</span></li>`).join('');
+const comp = document.getElementById('comp');
+roster.addEventListener('mousemove', e => {
+  const li = e.target.closest('li'); if(!li){ comp.classList.remove('show'); return; }
+  const t = talent[li.dataset.i];
+  if (comp.dataset.i !== li.dataset.i) {
+    comp.dataset.i = li.dataset.i;
+    comp.querySelector('.pic').innerHTML = portrait(t);
+    comp.querySelector('h3').textContent = t.n;
+    comp.querySelector('dl').innerHTML = [["Model",t.model],["Height",t.h],["Lift",t.grip],["Speaks",t.lang],["Eyes",t.eyes]].map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('');
+  }
+  comp.style.left = Math.min(e.clientX + 40, innerWidth - 330) + 'px';
+  comp.style.top = Math.max(10, Math.min(e.clientY - 200, innerHeight - 520)) + 'px';
+  comp.classList.add('show');
+});
+roster.addEventListener('mouseleave', ()=>comp.classList.remove('show'));
+document.getElementById('board').innerHTML = talent.map(t=>`<div class="card"><div class="pic">${portrait(t)}</div><div class="row"><h4>${t.n}</h4><span class="tag">${t.role}</span></div><p>${t.note}</p></div>`).join('');
+</script>
+</body>
+</html>

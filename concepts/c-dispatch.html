@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RentHumanoid — Dispatch</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Archivo:wdth,wght@62..125,500..900&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#111110; --panel:#1A1A18; --amber:#FFB400; --dim:#6B675C; --green:#7BE07B; --red:#FF5A3C; --cream:#EDE6D3; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--cream); font-family:"JetBrains Mono",monospace; font-size:13px; }
+  .wrap { max-width:1360px; margin:0 auto; padding:0 28px 60px; }
+  header { display:flex; justify-content:space-between; align-items:center; padding:20px 0; border-bottom:1px solid #2b2a26; }
+  .logo { font-family:"Archivo"; font-stretch:125%; font-weight:900; font-size:20px; letter-spacing:-.02em; color:var(--amber); }
+  .logo span { color:var(--cream); }
+  .clock { font-size:28px; font-weight:700; color:var(--amber); font-variant-numeric:tabular-nums; }
+  nav a { color:var(--cream); text-decoration:none; margin-left:24px; text-transform:uppercase; font-size:11px; letter-spacing:.12em; }
+  nav a:hover { color:var(--amber); }
+
+  .intro { display:grid; grid-template-columns:1fr auto; align-items:end; gap:40px; padding:56px 0 30px; }
+  h1 { font-family:"Archivo"; font-stretch:62%; font-weight:900; font-size:clamp(70px,10vw,168px); line-height:.82; text-transform:uppercase; letter-spacing:-.01em; }
+  h1 em { font-style:normal; color:var(--amber); }
+  .intro p { max-width:34ch; color:#BDB6A3; line-height:1.6; }
+
+  .board { background:var(--panel); border:1px solid #2b2a26; padding:18px 18px 8px; border-radius:4px; box-shadow:inset 0 0 60px #0008; }
+  .board-top { display:flex; justify-content:space-between; color:var(--dim); text-transform:uppercase; font-size:11px; letter-spacing:.14em; padding:0 6px 12px; }
+  .board-top b { color:var(--amber); font-weight:700; }
+  .head, .row { display:grid; grid-template-columns:118px 1.25fr 1fr 96px 1.2fr 160px; gap:16px; align-items:center; }
+  .head { color:var(--dim); font-size:10px; text-transform:uppercase; letter-spacing:.14em; padding:0 6px 8px; border-bottom:1px solid #2b2a26; }
+  .row { padding:9px 6px; border-bottom:1px solid #24231f; cursor:pointer; }
+  .row:hover { background:#22211d; }
+  .flaps { display:flex; gap:2px; }
+  .f { width:19px; height:30px; background:#0A0A09; color:var(--amber); font-weight:800; font-size:18px; display:grid; place-items:center; border-radius:2px; position:relative; text-transform:uppercase; }
+  .f::after { content:""; position:absolute; left:0; right:0; top:50%; height:1px; background:#000; }
+  .f.flip { animation:flip .09s linear; }
+  @keyframes flip { 50% { transform:scaleY(.1); } }
+  .txt { font-size:14px; text-transform:uppercase; letter-spacing:.04em; }
+  .sub { color:var(--dim); font-size:11px; margin-top:2px; text-transform:none; letter-spacing:0; }
+  .st { font-weight:800; letter-spacing:.08em; text-transform:uppercase; font-size:13px; display:flex; align-items:center; gap:8px; }
+  .st::before { content:""; width:8px; height:8px; border-radius:50%; background:currentColor; box-shadow:0 0 10px currentColor; }
+  .st.free { color:var(--green); } .st.busy { color:var(--dim); } .st.out { color:var(--amber); } .st.last { color:var(--red); animation:blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity:.35; } }
+
+  .lower { display:grid; grid-template-columns:1.1fr 1fr; gap:28px; margin-top:28px; align-items:start; }
+  .ticket { background:var(--cream); color:#111; border-radius:6px; display:grid; grid-template-columns:1fr 150px; position:relative; overflow:hidden; }
+  .ticket .main { padding:24px 26px; border-right:2px dashed #111; }
+  .ticket .stub { padding:24px 18px; display:flex; flex-direction:column; justify-content:space-between; background:var(--amber); }
+  .ticket::before, .ticket::after { content:""; position:absolute; width:22px; height:22px; border-radius:50%; background:var(--bg); right:139px; }
+  .ticket::before { top:-11px; } .ticket::after { bottom:-11px; }
+  .tk-title { font-family:"Archivo"; font-stretch:125%; font-weight:900; font-size:22px; text-transform:uppercase; letter-spacing:-.02em; margin-bottom:18px; }
+  .fields { display:grid; grid-template-columns:1fr 1fr; gap:14px 20px; }
+  label { display:block; font-size:10px; text-transform:uppercase; letter-spacing:.12em; color:#555; margin-bottom:4px; }
+  select, input { width:100%; font:inherit; font-size:15px; font-weight:700; background:transparent; border:0; border-bottom:2px solid #111; padding:4px 0; color:#111; outline:none; }
+  .total { display:flex; justify-content:space-between; align-items:end; margin-top:22px; padding-top:14px; border-top:1px solid #111; }
+  .total b { font-family:"Archivo"; font-stretch:62%; font-weight:900; font-size:56px; line-height:.8; }
+  .go { font:inherit; font-weight:800; text-transform:uppercase; letter-spacing:.1em; background:#111; color:var(--amber); border:0; padding:14px 16px; cursor:pointer; width:100%; }
+  .go:hover { background:#000; color:#fff; }
+  .barcode { height:54px; background:repeating-linear-gradient(90deg,#111 0 2px,transparent 2px 4px,#111 4px 5px,transparent 5px 9px,#111 9px 12px,transparent 12px 13px); }
+  .stub .big { font-family:"Archivo"; font-stretch:62%; font-weight:900; font-size:44px; line-height:.85; }
+
+  .facts { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:#2b2a26; border:1px solid #2b2a26; }
+  .facts div { background:var(--bg); padding:20px; }
+  .facts .n { font-family:"Archivo"; font-stretch:62%; font-weight:900; font-size:64px; color:var(--amber); line-height:.9; }
+  .facts .l { color:#BDB6A3; margin-top:6px; line-height:1.5; }
+  .ticker { margin-top:28px; border-top:1px solid #2b2a26; border-bottom:1px solid #2b2a26; overflow:hidden; white-space:nowrap; padding:10px 0; color:var(--amber); text-transform:uppercase; letter-spacing:.1em; font-size:12px; }
+  .ticker span { display:inline-block; animation:tick 40s linear infinite; }
+  @keyframes tick { to { transform:translateX(-50%); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">RENT<span>HUMANOID</span></div>
+    <nav><a href="#">Fleet</a><a href="#">Depots</a><a href="#">For business</a><a href="#">Track a unit</a></nav>
+    <div class="clock" id="clock">00:00:00</div>
+  </header>
+
+  <section class="intro">
+    <h1>Next unit<br>leaves in <em id="mins">07</em> min</h1>
+    <p>Live dispatch from six depots. Pick a unit that's free, tell it where to go. It walks out of the bay, gets in a van, and is at your door by tomorrow morning.</p>
+  </section>
+
+  <section class="board">
+    <div class="board-top"><span>Depot <b>RTM-01 Rotterdam</b> · Bay A–F</span><span>Updated <b id="upd">just now</b></span></div>
+    <div class="head"><span>Unit</span><span>Model</span><span>Destination</span><span>ETA</span><span>Job</span><span>Status</span></div>
+    <div id="rows"></div>
+  </section>
+
+  <section class="lower">
+    <form class="ticket" onsubmit="event.preventDefault()">
+      <div class="main">
+        <div class="tk-title">Boarding pass / Hire order</div>
+        <div class="fields">
+          <div><label>Model</label><select id="model"><option value="38">HX-2 Porter</option><option value="19">QL-1 Queuer</option><option value="42">DM-3 Domestic</option><option value="54">MR-4 Maître</option><option value="140">HZ-9 Hazard</option></select></div>
+          <div><label>Units</label><input id="qty" type="number" min="1" max="20" value="2"></div>
+          <div><label>Destination</label><input value="Schiedamseweg 12, Rotterdam"></div>
+          <div><label>Hours</label><input id="hrs" type="number" min="4" max="72" value="8"></div>
+        </div>
+        <div class="total"><div><label>Estimated fare</label><b id="fare">€608</b></div><div style="text-align:right;font-size:11px;line-height:1.5">Excl. VAT<br>Delivery included<br>Operator on call 24/7</div></div>
+      </div>
+      <div class="stub">
+        <div><label>Gate</label><div class="big">B4</div><label style="margin-top:14px">Seat</label><div class="big">—</div></div>
+        <div class="barcode"></div>
+        <button class="go">Dispatch →</button>
+      </div>
+    </form>
+    <div class="facts">
+      <div><div class="n">214</div><div class="l">Units in fleet. 61 out on jobs right now.</div></div>
+      <div><div class="n">06</div><div class="l">Depots. Rotterdam, Antwerp, Lille, Köln, Leeds, Lyon.</div></div>
+      <div><div class="n">1:1</div><div class="l">Every unit has a licensed human operator on the other end of a phone.</div></div>
+      <div><div class="n">0</div><div class="l">Ladders climbed. It's in the contract.</div></div>
+    </div>
+  </section>
+
+  <div class="ticker"><span id="tk"></span></div>
+</div>
+
+<script>
+const CH = " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-:";
+const data = [
+  ["HX2-0118","HX-2 Porter","Antwerpen","06:40","Pallet stacking","free"],
+  ["QL1-0447","QL-1 Queuer","Paris Gare N.","----","Passport line","out"],
+  ["MR4-0031","MR-4 Maître","Den Haag","18:00","Wedding · 140 pax","busy"],
+  ["DM3-0209","DM-3 Domestic","Delft","09:15","Weekly clean","free"],
+  ["HX2-0122","HX-2 Porter","Utrecht","07:30","House move","last"],
+  ["HZ9-0004","HZ-9 Hazard","Port Bay 7","11:00","Tank inspection","busy"],
+  ["HX2-0131","HX-2 Porter","—","TBD","Unassigned","free"],
+];
+const label = {free:"Available",busy:"On site",out:"Boarding",last:"Last call"};
+const flaps = (s,n)=>`<div class="flaps">${s.toUpperCase().padEnd(n).slice(0,n).split('').map(c=>`<span class="f" data-c="${c}">${c}</span>`).join('')}</div>`;
+document.getElementById('rows').innerHTML = data.map(d=>`<div class="row">
+  ${flaps(d[0].slice(4),4)}
+  <div class="txt">${d[1]}<div class="sub">Bay ${'ABCDEF'[Math.floor(Math.random()*6)]}${1+Math.floor(Math.random()*9)}</div></div>
+  <div class="txt">${d[2]}</div>
+  ${flaps(d[3].replace(':',''),4)}
+  <div class="txt">${d[4]}</div>
+  <div class="st ${d[5]}">${label[d[5]]}</div></div>`).join('');
+
+// split-flap scramble
+function scramble(el){ const target=el.dataset.c; let n=6+Math.floor(Math.random()*10);
+  const t=setInterval(()=>{ el.classList.remove('flip'); void el.offsetWidth; el.classList.add('flip');
+    el.textContent = --n<=0 ? target : CH[Math.floor(Math.random()*CH.length)];
+    if(n<=0) clearInterval(t); },60); }
+document.querySelectorAll('.f').forEach((f,i)=>setTimeout(()=>scramble(f),i*25));
+setInterval(()=>{ const all=document.querySelectorAll('.f'); for(let k=0;k<4;k++) scramble(all[Math.floor(Math.random()*all.length)]); },2200);
+
+const tick=()=>{ const d=new Date(); document.getElementById('clock').textContent=d.toTimeString().slice(0,8);
+  document.getElementById('mins').textContent=String(9-(d.getMinutes()%10)).padStart(2,'0'); };
+tick(); setInterval(tick,1000);
+const fare=()=>document.getElementById('fare').textContent='€'+(model.value*qty.value*hrs.value).toLocaleString('en');
+[model,qty,hrs].forEach(e=>e.oninput=fare); fare();
+const msg="HX2-0122 departing Bay A3 for Utrecht ★ QL1-0447 holding position 14 of 212 at Paris Gare du Nord ★ MR4-0031 has polished 312 glasses ★ New depot opening in Lyon ★ ";
+document.getElementById('tk').textContent=msg.repeat(6);
+</script>
+</body>
+</html>

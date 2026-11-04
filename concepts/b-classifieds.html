@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Humanoid Gazette — RentHumanoid</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Libre+Franklin:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#F1ECE0; --ink:#1B1A17; --red:#C4161C; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:#D9D3C4; font-family:"Libre Caslon Text",serif; color:var(--ink); }
+  .sheet { max-width:1240px; margin:24px auto; background:var(--paper); padding:22px 34px 40px; box-shadow:0 1px 0 #0002, 0 20px 40px -20px #0004;
+    background-image:radial-gradient(#0000000a 1px, transparent 1px); background-size:3px 3px; }
+  .ear { display:flex; justify-content:space-between; font-family:"Libre Franklin"; font-size:11px; text-transform:uppercase; letter-spacing:.08em; border-bottom:1px solid var(--ink); padding-bottom:6px; }
+  .mast { text-align:center; padding:8px 0 4px; }
+  .mast h1 { font-family:"UnifrakturMaguntia",serif; font-weight:400; font-size:clamp(54px,8vw,104px); line-height:1; }
+  .dateline { display:flex; justify-content:space-between; border-top:3px double var(--ink); border-bottom:3px double var(--ink); padding:6px 0; font-family:"Libre Franklin"; font-size:12px; text-transform:uppercase; letter-spacing:.05em; }
+  .lead { display:grid; grid-template-columns:2fr 1fr; gap:0; border-bottom:1px solid var(--ink); }
+  .lead > div { padding:20px 24px 24px 0; }
+  .lead > div + div { padding:20px 0 24px 24px; border-left:1px solid var(--ink); }
+  .kicker { font-family:"Libre Franklin"; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:var(--red); }
+  .headline { font-family:"Libre Franklin"; font-weight:900; font-size:clamp(44px,5.6vw,78px); line-height:.92; letter-spacing:-.03em; text-transform:uppercase; margin:8px 0 14px; }
+  .deck { font-style:italic; font-size:21px; line-height:1.3; margin-bottom:16px; }
+  .cols { columns:3; column-gap:22px; column-rule:1px solid #0003; font-size:14px; line-height:1.55; text-align:left; }
+  .cols p + p { text-indent:1.4em; }
+  .cols p:first-child::first-letter { float:left; font-size:58px; line-height:.8; padding:6px 6px 0 0; font-weight:700; }
+  .photo { border:1px solid var(--ink); margin:4px 0 8px; background:#E3DDCF; aspect-ratio:4/3; position:relative; overflow:hidden; }
+  .photo svg { width:100%; height:100%; display:block; }
+  .cap { font-family:"Libre Franklin"; font-size:11px; line-height:1.4; }
+  .side h3 { font-family:"Libre Franklin"; font-weight:900; text-transform:uppercase; font-size:22px; line-height:1; margin:6px 0 10px; }
+  .rates { width:100%; border-collapse:collapse; font-family:"Libre Franklin"; font-size:13px; margin-top:12px; }
+  .rates td { border-top:1px dotted var(--ink); padding:6px 0; }
+  .rates td:last-child { text-align:right; font-weight:700; font-variant-numeric:tabular-nums; }
+  .weather { margin-top:18px; border:2px solid var(--ink); padding:10px 12px; font-family:"Libre Franklin"; font-size:12px; }
+  .weather b { display:block; text-transform:uppercase; letter-spacing:.08em; font-size:11px; margin-bottom:4px; }
+
+  .classhead { display:flex; align-items:baseline; gap:16px; border-bottom:4px solid var(--ink); margin:22px 0 0; padding-bottom:4px; }
+  .classhead h2 { font-family:"Libre Franklin"; font-weight:900; font-size:36px; letter-spacing:-.02em; text-transform:uppercase; }
+  .classhead span { font-style:italic; font-size:15px; }
+  .classifieds { columns:4; column-gap:0; column-rule:1px solid var(--ink); }
+  .ad { break-inside:avoid; padding:14px 14px; border-bottom:1px solid var(--ink); font-size:13.5px; line-height:1.42; }
+  .ad .cat { font-family:"Libre Franklin"; font-weight:700; font-size:10px; letter-spacing:.12em; text-transform:uppercase; }
+  .ad h4 { font-family:"Libre Franklin"; font-weight:900; font-size:19px; line-height:1.02; text-transform:uppercase; margin:4px 0 6px; letter-spacing:-.01em; }
+  .ad .ref { font-family:"Libre Franklin"; font-size:11px; margin-top:8px; display:flex; justify-content:space-between; align-items:center; }
+  .ad .ref a { color:var(--ink); font-weight:700; }
+  .ad.box { border:3px solid var(--ink); margin:10px; text-align:center; }
+  .ad.inv { background:var(--ink); color:var(--paper); }
+  .ad.inv a { color:var(--paper); }
+  .ad.inv h4 { font-size:26px; }
+  .ad.red h4 { color:var(--red); }
+  .stamp { display:inline-block; font-family:"Libre Franklin"; font-weight:900; color:var(--red); border:3px solid var(--red); padding:2px 8px; transform:rotate(-6deg); text-transform:uppercase; font-size:13px; letter-spacing:.06em; opacity:.85; }
+  .clip { position:relative; }
+  .clip.cut { outline:2px dashed var(--red); outline-offset:-6px; cursor:pointer; }
+  .tip { font-family:"Libre Franklin"; font-size:12px; text-align:center; padding:12px 0 0; }
+  .tip b { color:var(--red); }
+  .ad { cursor:pointer; transition:background .15s; }
+  .ad:hover { background:#fff8e6; }
+  .ad.inv:hover { background:#000; }
+  .ad.picked { background:#fff3c4; }
+  .ad.picked .cat::after { content:"  ✂ CLIPPED"; color:var(--red); }
+  .tray { position:fixed; right:24px; bottom:24px; background:var(--ink); color:var(--paper); font-family:"Libre Franklin"; padding:12px 16px; font-size:13px; display:flex; gap:14px; align-items:center; box-shadow:4px 4px 0 var(--red); }
+  .tray[hidden] { display:none; }
+  .tray button { font:inherit; font-weight:700; background:var(--paper); color:var(--ink); border:0; padding:6px 12px; cursor:pointer; text-transform:uppercase; letter-spacing:.06em; font-size:11px; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="ear"><span>Vol. CXII · No. 7</span><span>Rentals · Classifieds · Notices</span><span>Price: one hour of your time</span></div>
+  <div class="mast"><h1>The Humanoid Gazette</h1></div>
+  <div class="dateline"><span>Wednesday, November 4, 2026</span><span>Published by RentHumanoid — Est. 2024</span><span>Late Edition</span></div>
+
+  <section class="lead">
+    <div>
+      <div class="kicker">Labour · Exclusive</div>
+      <div class="headline">Man-shaped help now available by the hour</div>
+      <p class="deck">Two hundred bipeds stand ready in six depots. They do not tire, gossip, or ask for the aux cable. They do, however, need charging.</p>
+      <div class="cols">
+        <p>Rotterdam — For the first time, a household, a warehouse or a wedding planner may hire a full-sized humanoid the way one hires a van: by the hour, delivered to the door, and collected when the work is done.</p>
+        <p>"People expect a robot arm on a rail," said a depot supervisor, who asked to be identified only by her shift. "Then a thing in a hi-vis vest walks up the drive and asks where the boxes go. It changes the mood."</p>
+        <p>Each unit is supervised remotely by a licensed operator, who can be reached by telephone at any hour. Damage is insured. Ladders, the company stresses, are not permitted.</p>
+        <p>Rates begin at nineteen euros an hour for the Queuer model, which stands in lines on behalf of the public. Demand, the company reports, has been "embarrassingly high."</p>
+        <p>Reservations may be placed by clipping any notice below.</p>
+      </div>
+    </div>
+    <div class="side">
+      <div class="photo">
+        <svg viewBox="0 0 400 300" aria-label="Halftone illustration of a humanoid carrying a box">
+          <defs>
+            <pattern id="ht" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="2.5" r="1.6" fill="#1B1A17"/></pattern>
+            <pattern id="ht2" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="2.5" r=".9" fill="#1B1A17"/></pattern>
+          </defs>
+          <rect width="400" height="300" fill="url(#ht2)" opacity=".5"/>
+          <rect y="230" width="400" height="70" fill="url(#ht)" opacity=".55"/>
+          <g fill="url(#ht)">
+            <rect x="182" y="40" width="40" height="50" rx="14"/>
+            <path d="M160 96 H244 L236 196 H168 Z"/>
+            <rect x="170" y="200" width="22" height="90" rx="8"/><rect x="212" y="200" width="22" height="90" rx="8"/>
+          </g>
+          <rect x="188" y="56" width="28" height="9" rx="4" fill="#F1ECE0"/>
+          <rect x="140" y="118" width="124" height="74" fill="#C9B48A" stroke="#1B1A17" stroke-width="2"/>
+          <path d="M140 140 H264" stroke="#1B1A17" stroke-width="2"/>
+          <text x="202" y="172" font-family="Libre Franklin" font-weight="900" font-size="15" text-anchor="middle" fill="#1B1A17">FRAGILE</text>
+          <rect x="138" y="110" width="16" height="40" rx="6" fill="url(#ht)"/><rect x="250" y="110" width="16" height="40" rx="6" fill="url(#ht)"/>
+        </svg>
+      </div>
+      <p class="cap"><b>CARRYING ON.</b> An HX-2 "Porter" unit moves a client's crockery in Delft on Tuesday. It was not told the box was fragile; it read the label. <i>Gazette illustration</i></p>
+      <h3 style="margin-top:18px">Today's Rates</h3>
+      <table class="rates">
+        <tr><td>Queuer QL-1</td><td>€19 /h</td></tr>
+        <tr><td>Porter HX-2</td><td>€38 /h</td></tr>
+        <tr><td>Domestic DM-3</td><td>€42 /h</td></tr>
+        <tr><td>Maître MR-4</td><td>€54 /h</td></tr>
+        <tr><td>Hazard HZ-9 <i>(lic.)</i></td><td>€140 /h</td></tr>
+      </table>
+      <div class="weather"><b>Forecast</b>Overcast, 9°C. 100% chance of folded laundry. Winds light, from the warehouse.</div>
+    </div>
+  </section>
+
+  <div class="classhead"><h2>Classifieds</h2><span>— Bipeds for hire. Click any notice to clip it for reservation.</span></div>
+  <section class="classifieds" id="ads"></section>
+  <p class="tip">All units supervised by licensed humans · Insured to €25 000 · <b>No ladders.</b></p>
+</div>
+<div class="tray" id="tray" hidden><span id="count"></span><button>Reserve clipped</button></div>
+
+<script>
+const ads = [
+  ["Warehouse","Reliable biped, 178 cm, lifts 25 kg","Will stack pallets all night without a single opinion about the music. Steel-toed. Punctual to the second. Ref HX-2.","€38/h"],
+  ["Events","Will stand in line for you","Concert tickets, passport office, new sneaker drop. Holds your place, texts you when it's close. Does not cut. Ref QL-1.","€19/h",'box'],
+  ["Hospitality","Waiter, tall, steady hands","Carries 6 plates. Remembers who had the fish. Says 'excellent choice' with conviction. Black tie included. Ref MR-4.","€54/h"],
+  ["Domestic","Folds fitted sheets","Yes, really. Also dishes, plants, and the cupboard you've been avoiding since March. Ref DM-3.","€42/h",'red'],
+  ["Moving Day","Two pairs of hands. Four if you hire two.","Couch up three flights, no pivoting jokes. Returns your keys. Ref HX-2.","€76/h pair"],
+  ["Notice","Hire a humanoid this week","First 4 hours at half rate for new accounts. Clip & quote GAZETTE7.","−50%",'inv'],
+  ["Hazardous","Goes where you shouldn't","Heat, fumes, tight spaces, freezer rooms. Licence & site survey required. Ref HZ-9.","€140/h"],
+  ["Retail","Short biped, 152 cm, restocks shelves","Reaches the bottom shelf without complaint. Faces products label-out. Ref HX-2s.","€34/h"],
+  ["Personal","Seeking: a reason to walk","Unit QL-1 #0447 has stood in 1,212 lines. Would like to carry something heavy. Serious offers only.","€19/h"],
+  ["Gardening","Leaves raked. Hedges respected.","Will not prune anything it hasn't been shown twice. Brings own gloves. Ref DM-3.","€42/h"],
+  ["Lost & Found","Found: one umbrella, black","Left at Café Noord by a client of unit MR-4 #0031. It is holding it for you. Patiently."," "],
+  ["Corporate","Fleet rates for 10+ units","Warehouses, festivals, hospitals. A human account manager calls you back within one hour.","Quote",'box'],
+];
+const el = document.getElementById('ads');
+el.innerHTML = ads.map((a,i)=>`<article class="ad ${a[4]||''}" data-i="${i}">
+  <div class="cat">${a[0]}</div><h4>${a[1]}</h4><p>${a[2]}</p>
+  <div class="ref"><span>${a[3]}</span>${i===3?'<span class="stamp">Popular</span>':'<a>Clip ✂</a>'}</div></article>`).join('');
+const picked = new Set(), tray = document.getElementById('tray');
+el.onclick = e => { const ad = e.target.closest('.ad'); if(!ad) return;
+  const i = ad.dataset.i; picked.has(i)?picked.delete(i):picked.add(i); ad.classList.toggle('picked');
+  tray.hidden = !picked.size; document.getElementById('count').textContent = picked.size+' notice'+(picked.size>1?'s':'')+' clipped'; };
+</script>
+</body>
+</html>
