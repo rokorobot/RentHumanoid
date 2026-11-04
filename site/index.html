@@ -37,8 +37,8 @@
   .gate { display:inline-block; background:var(--amber); color:#111; font-weight:800; font-size:11px; letter-spacing:.12em; padding:2px 8px; margin-bottom:14px; }
 
   /* hero */
-  .intro { display:grid; grid-template-columns:1fr auto; align-items:end; gap:40px; padding:56px 0 28px; }
-  h1 { font-size:clamp(64px,10vw,168px); letter-spacing:-.01em; }
+  .intro { display:grid; grid-template-columns:minmax(0,1fr) 300px; align-items:end; gap:40px; padding:56px 0 28px; }
+  h1 { font-size:min(9vw,150px); letter-spacing:-.01em; white-space:nowrap; }
   h1 em { font-style:normal; color:var(--amber); }
   .intro p { max-width:34ch; color:var(--mute); line-height:1.6; }
   .intro .cta { display:inline-block; margin-top:18px; background:var(--amber); color:#111; text-decoration:none; font-weight:800; text-transform:uppercase; letter-spacing:.1em; padding:12px 16px; }
@@ -163,6 +163,7 @@
 
   @media (prefers-reduced-motion:reduce) { .f.flip, .ticker span, .st.last { animation:none; } }
 
+  @media (max-width:960px) { .intro { grid-template-columns:1fr; } h1 { font-size:12.5vw; } }
   @media (max-width:1100px) {
     .fleet { grid-template-columns:repeat(3,1fr); }
     .lower { grid-template-columns:1fr; }
@@ -172,7 +173,7 @@
   }
   @media (max-width:760px) {
     .wrap { padding:0 16px; }
-    .intro { grid-template-columns:1fr; gap:20px; padding-top:36px; }
+    .intro { gap:20px; padding-top:36px; }
     .head { display:none; }
     .row { grid-template-columns:auto 1fr auto; gap:6px 12px; padding:12px 4px; }
     .row .c-dest, .row .c-job { display:none; }
@@ -312,20 +313,20 @@ const MODELS = {
 };
 const DEPOTS = {
   RTM:{ name:"Rotterdam", gate:"B4", out:61, jobs:[
-    ["0118","HX-2","Antwerpen","0640","Pallet stacking","free"],["0447","QL-1","Paris Gare N.","----","Passport line","out"],
+    ["0118","HX-2","Antwerpen","0640","Pallet stacking","free"],["0447","QL-1","Paris Gare N.","NOW","Passport line","out"],
     ["0031","MR-4","Den Haag","1800","Wedding · 140 pax","busy"],["0209","DM-3","Delft","0915","Weekly clean","free"],
     ["0122","HX-2","Utrecht","0730","House move","last"],["0004","HZ-9","Port bay 7","1100","Tank inspection","busy"],
     ["0131","HX-2","—","TBD","Unassigned","free"]]},
   ANR:{ name:"Antwerpen", gate:"A2", out:22, jobs:[
     ["0210","HX-2","Gent","0700","Container unload","busy"],["0233","MR-4","Brussel","1900","Gala dinner","free"],
-    ["0261","QL-1","Antwerpen C.","----","Concert tickets","out"],["0270","DM-3","Mechelen","1000","Spring clean","free"],
+    ["0261","QL-1","Antwerpen C.","NOW","Concert tickets","out"],["0270","DM-3","Mechelen","1000","Spring clean","free"],
     ["0288","HX-2","—","TBD","Unassigned","free"]]},
   LIL:{ name:"Lille", gate:"C1", out:9, jobs:[
     ["0301","HX-2","Roubaix","0800","Retail restock","busy"],["0312","DM-3","Lille","0930","Weekly clean","last"],
     ["0320","MR-4","Arras","2000","Hotel banquet","free"]]},
   CGN:{ name:"Köln", gate:"D6", out:14, jobs:[
     ["0402","HZ-9","Leverkusen","0600","Reactor wash","busy"],["0415","HX-2","Bonn","0730","Office move","free"],
-    ["0421","QL-1","Köln Hbf","----","Visa office","out"],["0433","HX-2","Düsseldorf","0800","Trade fair build","free"]]},
+    ["0421","QL-1","Köln Hbf","NOW","Visa office","out"],["0433","HX-2","Düsseldorf","0800","Trade fair build","free"]]},
   LBA:{ name:"Leeds", gate:"E3", out:11, jobs:[
     ["0501","DM-3","Harrogate","0900","Care home laundry","free"],["0517","HX-2","York","0700","Warehouse pick","busy"],
     ["0522","MR-4","Leeds","1830","Wedding · 90 pax","last"]]},
