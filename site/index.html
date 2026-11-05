@@ -173,6 +173,8 @@
   footer ul { list-style:none; display:grid; gap:6px; }
   footer a { text-decoration:none; }
   footer a:hover { color:var(--amber); }
+  footer .legal { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; border-top:1px solid var(--line); padding-top:16px; padding-bottom:28px; color:var(--dim); font-size:11px; text-transform:uppercase; letter-spacing:.1em; }
+  footer .legal a { color:var(--amber); }
   footer .big { font-size:96px; color:var(--amber); }
 
   @media (prefers-reduced-motion:reduce) { .f.flip, .ticker span { animation:none; } }
@@ -315,10 +317,11 @@
 <div class="ticker"><span id="tk">Loading live listings ★ </span></div>
 <footer>
   <div class="wrap">
-    <div><div class="big cond">RH</div><p style="color:var(--mute);max-width:36ch">RentHumanoid — live humanoid robot rentals. Listings data from the HumanoidOnline catalogue.</p></div>
+    <div><div class="big cond">RH</div><p style="color:var(--mute);max-width:36ch">RentHumanoid — live humanoid robot rentals. Part of <a class="amber" href="https://humanoid.company" target="_blank" rel="noopener">Humanoid.Company</a>. Listings data from the HumanoidOnline catalogue.</p></div>
     <div><h4>On this page</h4><ul><li><a href="#board">Live board</a></li><li><a href="#robots">Robots</a></li><li><a href="#request">Request a rental</a></li><li><a href="#providers">List your robots</a></li></ul></div>
     <div><h4>Data</h4><ul><li><a href="https://humanoidonline.com" target="_blank" rel="noopener">HumanoidOnline.com ↗</a></li><li><a href="https://humanoidonline.com/robots" target="_blank" rel="noopener">Full robot catalogue ↗</a></li></ul></div>
   </div>
+  <div class="wrap legal"><span>© <span id="yr">2026</span> RentHumanoid · a <a href="https://humanoid.company" target="_blank" rel="noopener">Humanoid.Company</a> venture</span><span>Building the commercial infrastructure for humanoid robotics</span></div>
 </footer>
 
 <script>
@@ -476,6 +479,7 @@ const FAQ = [
 ];
 $('faqList').innerHTML = FAQ.map((f, i) => `<details><summary>${f[0]}<span class="no">PA-${String(i + 1).padStart(2, '0')}</span></summary><p>${f[1]}</p></details>`).join('');
 
+$('yr').textContent = new Date().getFullYear();
 const tick = () => { $('clock').textContent = new Date().toTimeString().slice(0, 8); };
 tick(); setInterval(tick, 1000);
 setInterval(() => { if (reduced) return; const all = document.querySelectorAll('#rows .f'); for (let k = 0; k < 3 && all.length; k++) scramble(all[Math.floor(Math.random() * all.length)]); }, 2400);
