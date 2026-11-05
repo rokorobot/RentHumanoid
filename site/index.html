@@ -422,9 +422,9 @@ const label = l => `${l.robot.name} (${l.robot.manufacturer.name}) — ${MODES[l
 function pick(id) {
   picked = id || null; const l = listings.find(x => x.id === id);
   $('listing').value = l ? label(l) : '';
-  $('srcField').value = l?.offer.evidence?.source_url || '';
+  $('srcField').value = l?.price?.evidence?.source_url || l?.offer.evidence?.source_url || '';
   $('lp').textContent = l ? l.pt.main : '—';
-  $('lpNote').textContent = l ? (l.pt.basis || (l.pt.none ? 'The provider quotes this one directly.' : 'As published by the provider.')) : 'Pick a listing to see the provider\'s published price and its basis.';
+  $('lpNote').textContent = l ? `Offered in ${regionName(l.offer.region)}. ` + (l.pt.basis || (l.pt.none ? 'The provider quotes this one directly.' : 'As published by the provider.')) : 'Pick a listing to see the provider\'s published price and its basis.';
   $('sRegion').textContent = l ? regionCode(l.offer.region) : '—';
   $('sMode').textContent = l ? MODES[l.offer.transaction_type] : '—';
   renderBoard();
