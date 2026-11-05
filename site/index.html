@@ -253,7 +253,7 @@
     <div class="sec-head"><div><div class="gate">GATE 03</div><h2 class="cond">Request a rental</h2></div><p>Free to ask. We'll reply by email within one business day with next steps from the provider.</p></div>
     <div class="lower">
       <form class="ticket" id="ticket" name="rental-request" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="rental-request"><input type="hidden" name="ref" id="refField">
+        <input type="hidden" name="form-name" value="rental-request"><input type="hidden" name="ref" id="refField"><input type="hidden" name="provider_source" id="srcField">
         <p hidden><label>Leave empty <input name="bot-field"></label></p>
         <div class="main">
           <div class="tk-title wide">Rental request</div>
@@ -417,9 +417,12 @@ function renderRobots() {
       <div class="rate"><b class="cond ${best.pt.none ? 'none' : ''}">${esc(best.pt.main)}</b><button data-id="${esc(best.id)}">Request</button></div></article>`; }).join('');
 }
 
+const label = l => `${l.robot.name} (${l.robot.manufacturer.name}) — ${MODES[l.offer.transaction_type]} via ${l.offer.provider_name}, ${regionName(l.offer.region)} — ${l.pt.main}`;
+
 function pick(id) {
   picked = id || null; const l = listings.find(x => x.id === id);
-  $('listing').value = l ? l.id : '';
+  $('listing').value = l ? label(l) : '';
+  $('srcField').value = l?.offer.evidence?.source_url || '';
   $('lp').textContent = l ? l.pt.main : '—';
   $('lpNote').textContent = l ? (l.pt.basis || (l.pt.none ? 'The provider quotes this one directly.' : 'As published by the provider.')) : 'Pick a listing to see the provider\'s published price and its basis.';
   $('sRegion').textContent = l ? regionCode(l.offer.region) : '—';
@@ -436,7 +439,7 @@ function renderRest() {
   $('fRegions').textContent = new Set(listings.map(l => l.offer.region)).size;
   $('modeChips').innerHTML = [['ALL', 'All'], ...Object.entries(MODES).filter(([k]) => listings.some(l => l.offer.transaction_type === k))].map(([k, v]) => `<button class="chip" data-v="${k}">${v}</button>`).join('');
   $('regionChips').innerHTML = ['ALL', ...new Set(listings.map(l => l.offer.region))].map(c => `<button class="chip" data-v="${esc(c)}" title="${esc(c === 'ALL' ? 'All regions' : regionName(c))}">${esc(c === 'ALL' ? 'Any region' : regionCode(c))}</button>`).join('');
-  $('listing').innerHTML = '<option value="">Not sure yet — help me choose</option>' + listings.map(l => `<option value="${esc(l.id)}">${esc(l.robot.name)} — ${MODES[l.offer.transaction_type]}, ${esc(l.offer.provider_name)} (${esc(regionName(l.offer.region))})</option>`).join('');
+  $('listing').innerHTML = '<option value="">Not sure yet — help me choose</option>' + listings.map(l => `<option value="${esc(label(l))}" data-id="${esc(l.id)}">${esc(label(l))}</option>`).join('');
   $('provList').innerHTML = Object.entries(providers).map(([p, rs]) => `<li><span>${esc(p)}</span><span>${esc([...rs].join(', '))}</span></li>`).join('');
   $('tk').textContent = (listings.map(l => `${l.robot.name} · ${MODES[l.offer.transaction_type]} · ${l.offer.provider_name} · ${regionName(l.offer.region)} · ${l.pt.main}`).join(' ★ ') + ' ★ ').repeat(4);
 }
@@ -445,7 +448,7 @@ $('modeChips').onclick = e => { const v = e.target.dataset.v; if (v) { mode = v;
 $('regionChips').onclick = e => { const v = e.target.dataset.v; if (v) { region = v; renderBoard(); } };
 $('rows').onclick = e => { if (e.target.closest('a')) return; const r = e.target.closest('.row'); if (r) { pick(r.dataset.id); $('request').scrollIntoView(); } };
 $('fleetGrid').onclick = e => { const id = e.target.dataset.id; if (id) { pick(id); $('request').scrollIntoView(); } };
-$('listing').oninput = () => pick($('listing').value);
+$('listing').oninput = () => pick($('listing').selectedOptions[0]?.dataset.id);
 $('start').min = new Date().toISOString().slice(0, 10);
 
 async function netlifySubmit(form) {
