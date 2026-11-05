@@ -1,3 +1,10 @@
 [build]
   publish = "site"
   command = ""
+
+# Live listings come from the HumanoidOnline API. Proxying keeps it same-origin (the API sends no CORS headers).
+[[redirects]]
+  from = "/api/*"
+  to = "https://humanoidonline-api.vercel.app/api/:splat"
+  status = 200
+  force = true

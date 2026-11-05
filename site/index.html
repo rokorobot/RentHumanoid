@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RentHumanoid — Humanoids for hire, dispatched daily</title>
+<title>RentHumanoid — Live humanoid robot rentals</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta property="og:title" content="RentHumanoid — Humanoids for hire, dispatched daily">
-<meta property="og:description" content="Live availability from six depots. Next-day delivery. A licensed human operator on every unit.">
+<meta property="og:title" content="RentHumanoid — Live humanoid robot rentals">
+<meta property="og:description" content="Every humanoid robot you can actually rent, lease or hire as a service — live, with provider, price and source.">
 <meta property="og:image" content="https://renthumanoid.netlify.app/og.png">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#111110">
-<meta name="description" content="Rent a humanoid by the hour. Live availability from six depots, next-day delivery, a licensed human operator on every unit.">
+<meta name="description" content="Every humanoid robot you can actually rent, lease or hire as a service — live listings with provider, price and source, from the HumanoidOnline catalogue.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Archivo:wdth,wght@62..125,500..900&display=swap" rel="stylesheet">
 <style>
@@ -26,7 +26,6 @@
   .label { font-size:10px; text-transform:uppercase; letter-spacing:.14em; color:var(--dim); }
   .amber { color:var(--amber); }
 
-  /* header */
   header { position:sticky; top:0; z-index:20; background:#111110ee; backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
   header .wrap { display:flex; justify-content:space-between; align-items:center; height:64px; gap:20px; }
   .logo { font-size:20px; color:var(--amber); text-decoration:none; }
@@ -40,29 +39,27 @@
   section { padding:72px 0 0; }
   .sec-head { display:flex; justify-content:space-between; align-items:end; gap:30px; margin-bottom:24px; flex-wrap:wrap; }
   .sec-head h2 { font-size:clamp(48px,6vw,96px); }
-  .sec-head p { max-width:40ch; color:var(--mute); }
+  .sec-head p { max-width:44ch; color:var(--mute); }
   .gate { display:inline-block; background:var(--amber); color:#111; font-weight:800; font-size:11px; letter-spacing:.12em; padding:2px 8px; margin-bottom:14px; }
 
-  /* hero */
-  .intro { display:grid; grid-template-columns:minmax(0,1fr) 300px; align-items:end; gap:40px; padding:56px 0 28px; }
+  .intro { display:grid; grid-template-columns:minmax(0,1fr) 320px; align-items:end; gap:40px; padding:56px 0 28px; }
   h1 { font-size:min(9vw,150px); letter-spacing:-.01em; white-space:nowrap; }
   h1 em { font-style:normal; color:var(--amber); }
-  .intro p { max-width:34ch; color:var(--mute); line-height:1.6; }
+  .intro p { color:var(--mute); line-height:1.6; }
   .intro .cta { display:inline-block; margin-top:18px; background:var(--amber); color:#111; text-decoration:none; font-weight:800; text-transform:uppercase; letter-spacing:.1em; padding:12px 16px; }
   .intro .cta:hover { background:var(--cream); }
 
-  /* board */
   .board { background:var(--panel); border:1px solid var(--line); padding:16px 18px 8px; border-radius:4px; box-shadow:inset 0 0 60px #0008; }
   .board-top { display:flex; justify-content:space-between; align-items:center; gap:16px; padding:0 6px 12px; flex-wrap:wrap; }
-  .depots, .filters { display:flex; gap:4px; flex-wrap:wrap; }
+  .chips { display:flex; gap:4px; flex-wrap:wrap; }
   .chip { font:inherit; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; background:#0A0A09; color:var(--dim); border:1px solid var(--line); padding:6px 10px; cursor:pointer; border-radius:2px; }
   .chip:hover { color:var(--cream); }
   .chip.on { background:var(--amber); color:#111; border-color:var(--amber); }
-  .head, .row { display:grid; grid-template-columns:100px 1.25fr 1fr 96px 1.2fr 150px; gap:16px; align-items:center; }
+  .head, .row { display:grid; grid-template-columns:88px 1.3fr 96px 1.2fr 1.1fr 150px; gap:16px; align-items:center; }
   .head { padding:10px 6px 8px; border-bottom:1px solid var(--line); }
-  .row { padding:9px 6px; border-bottom:1px solid #24231F; cursor:pointer; }
+  .row { padding:10px 6px; border-bottom:1px solid #24231F; cursor:pointer; }
   .row:hover { background:#22211D; }
-  .row:hover .txt.m { color:var(--amber); }
+  .row:hover .m { color:var(--amber); }
   .row.sel { background:#2A2512; }
   .flaps { display:flex; gap:2px; }
   .f { width:19px; height:30px; background:#0A0A09; color:var(--amber); font-weight:800; font-size:18px; display:grid; place-items:center; border-radius:2px; position:relative; text-transform:uppercase; }
@@ -71,63 +68,70 @@
   @keyframes flip { 50% { transform:scaleY(.1); } }
   .txt { font-size:14px; text-transform:uppercase; letter-spacing:.04em; }
   .sub { color:var(--dim); font-size:11px; margin-top:2px; text-transform:none; letter-spacing:0; }
+  .sub a { color:var(--mute); }
+  .sub a:hover { color:var(--amber); }
+  .mode { font-size:11px; font-weight:800; letter-spacing:.1em; border:1px solid currentColor; padding:2px 6px; justify-self:start; }
+  .mode.RENTAL { color:var(--amber); } .mode.LEASE { color:var(--mute); } .mode.RAAS { color:#8FB8FF; }
+  .price { font-size:15px; font-weight:700; }
+  .price.none { color:var(--dim); font-weight:400; font-size:12px; }
   .st { font-weight:800; letter-spacing:.08em; text-transform:uppercase; font-size:13px; display:flex; align-items:center; gap:8px; }
   .st::before { content:""; width:8px; height:8px; border-radius:50%; background:currentColor; box-shadow:0 0 10px currentColor; flex:none; }
-  .st.free { color:var(--green); } .st.busy { color:var(--dim); } .st.out { color:var(--amber); } .st.last { color:var(--red); animation:blink 1s steps(2) infinite; }
-  @keyframes blink { 50% { opacity:.35; } }
-  .board-foot { display:flex; justify-content:space-between; padding:12px 6px 6px; color:var(--dim); font-size:11px; }
-  .empty { padding:30px 6px; color:var(--dim); text-align:center; }
+  .st.AVAILABLE { color:var(--green); } .st.ON_REQUEST, .st.PREORDER, .st.WAITLIST { color:var(--amber); } .st.other { color:var(--dim); }
+  .board-foot { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; padding:12px 6px 6px; color:var(--dim); font-size:11px; }
+  .empty { padding:36px 6px; color:var(--dim); text-align:center; }
+  .empty a { color:var(--amber); }
 
-  /* route / how it works */
-  .route { position:relative; display:grid; grid-template-columns:repeat(5,1fr); gap:0; margin-top:10px; }
+  .route { position:relative; display:grid; grid-template-columns:repeat(4,1fr); margin-top:10px; }
   .route::before { content:""; position:absolute; left:0; right:0; top:15px; border-top:2px dashed var(--line); }
-  .stop { position:relative; padding-right:24px; }
+  .stop { position:relative; padding-right:28px; }
   .dot { width:32px; height:32px; border-radius:50%; background:var(--bg); border:2px solid var(--amber); display:grid; place-items:center; color:var(--amber); font-weight:800; position:relative; }
   .stop:last-child .dot { background:var(--amber); color:#111; }
-  .stop .t { font-size:11px; color:var(--amber); letter-spacing:.12em; margin:18px 0 6px; }
+  .stop .t { font-size:11px; color:var(--amber); letter-spacing:.12em; margin:18px 0 6px; text-transform:uppercase; }
   .stop h3 { font-size:30px; margin-bottom:10px; }
   .stop p { color:var(--mute); }
 
-  /* fleet */
-  .fleet { display:grid; grid-template-columns:repeat(5,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
-  .unit { background:var(--bg); padding:20px 18px 18px; display:flex; flex-direction:column; gap:14px; transition:background .15s; }
+  .fleet { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .unit { background:var(--bg); padding:20px 18px 18px; display:flex; flex-direction:column; gap:14px; }
   .unit:hover { background:var(--panel); }
-  .unit .code { font-size:64px; color:var(--amber); }
+  .unit .code { font-size:52px; color:var(--amber); }
   .unit .name { font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
-  .unit svg { height:150px; width:100%; }
+  .unit .fig { height:150px; display:flex; align-items:flex-end; justify-content:center; }
+  .unit svg { width:100%; }
   .unit dl { display:grid; grid-template-columns:1fr auto; gap:4px 10px; font-size:12px; border-top:1px solid var(--line); padding-top:12px; }
   .unit dt { color:var(--dim); text-transform:uppercase; font-size:10px; letter-spacing:.12em; align-self:center; }
   .unit dd { text-align:right; font-variant-numeric:tabular-nums; }
   .unit .for { color:var(--mute); font-size:12px; flex:1; }
-  .unit .rate { display:flex; justify-content:space-between; align-items:end; }
-  .unit .rate b { font-size:44px; }
-  .unit button { font:inherit; font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; background:none; color:var(--amber); border:1px solid var(--amber); padding:8px 10px; cursor:pointer; }
+  .unit .rate { display:flex; justify-content:space-between; align-items:end; gap:10px; }
+  .unit .rate b { font-size:30px; }
+  .unit .rate b.none { font-size:18px; color:var(--dim); }
+  .unit button { font:inherit; font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; background:none; color:var(--amber); border:1px solid var(--amber); padding:8px 10px; cursor:pointer; white-space:nowrap; }
   .unit button:hover { background:var(--amber); color:#111; }
-  .lic { font-size:10px; color:var(--red); letter-spacing:.12em; text-transform:uppercase; }
+  .unit .more { font-size:11px; color:var(--dim); }
 
-  /* booking */
   .lower { display:grid; grid-template-columns:1.1fr 1fr; gap:28px; align-items:start; }
-  .ticket { background:var(--cream); color:#111; border-radius:6px; display:grid; grid-template-columns:1fr 160px; position:relative; overflow:hidden; }
+  .ticket { background:var(--cream); color:#111; border-radius:6px; display:grid; grid-template-columns:1fr 170px; position:relative; overflow:hidden; }
   .ticket .main { padding:24px 26px; border-right:2px dashed #111; }
   .ticket .stub { padding:24px 18px; display:flex; flex-direction:column; justify-content:space-between; gap:16px; background:var(--amber); }
-  .ticket::before, .ticket::after { content:""; position:absolute; width:22px; height:22px; border-radius:50%; background:var(--bg); right:149px; }
+  .ticket::before, .ticket::after { content:""; position:absolute; width:22px; height:22px; border-radius:50%; background:var(--bg); right:159px; }
   .ticket::before { top:-11px; } .ticket::after { bottom:-11px; }
   .tk-title { font-size:22px; text-transform:uppercase; margin-bottom:18px; }
   .fields { display:grid; grid-template-columns:1fr 1fr; gap:14px 20px; }
   .fields label { display:block; font-size:10px; text-transform:uppercase; letter-spacing:.12em; color:#555; margin-bottom:4px; }
   .fields .full { grid-column:1/-1; }
-  select, input { width:100%; font:inherit; font-size:15px; font-weight:700; background:transparent; border:0; border-bottom:2px solid #111; padding:4px 0; color:#111; outline:none; border-radius:0; }
-  select:focus, input:focus { border-bottom-color:#B07A00; }
-  .total { display:flex; justify-content:space-between; align-items:end; margin-top:22px; padding-top:14px; border-top:1px solid #111; gap:16px; }
-  .total b { font-size:60px; }
-  .total .note { text-align:right; font-size:11px; line-height:1.5; }
+  select, input, textarea { width:100%; font:inherit; font-size:15px; font-weight:700; background:transparent; border:0; border-bottom:2px solid #111; padding:4px 0; color:#111; outline:none; border-radius:0; }
+  textarea { resize:vertical; min-height:56px; font-weight:400; font-size:14px; }
+  select:focus, input:focus, textarea:focus { border-bottom-color:#B07A00; }
+  .listed { margin-top:20px; padding-top:14px; border-top:1px solid #111; display:flex; justify-content:space-between; align-items:end; gap:16px; }
+  .listed b { font-size:44px; }
+  .listed .note { text-align:right; font-size:11px; line-height:1.5; max-width:30ch; }
+  .privacy { font-size:11px; color:#555; margin-top:14px; }
+  #formErr { color:#B3261E; font-weight:700; }
   .go { font:inherit; font-weight:800; text-transform:uppercase; letter-spacing:.1em; background:#111; color:var(--amber); border:0; padding:14px 16px; cursor:pointer; width:100%; }
   .go:hover { background:#000; color:#fff; }
   .go:disabled { opacity:.6; cursor:wait; }
-  .privacy { font-size:11px; color:#555; margin-top:16px; }
-  #formErr { color:#B3261E; font-weight:700; }
   .barcode { height:54px; background:repeating-linear-gradient(90deg,#111 0 2px,transparent 2px 4px,#111 4px 5px,transparent 5px 9px,#111 9px 12px,transparent 12px 13px); }
   .stub .big { font-size:46px; }
+  .stub .mid { font-size:24px; }
   .stub .label { color:#5a4300; }
   .confirm { display:none; padding:40px 26px; grid-column:1/-1; text-align:center; }
   .ticket.done .main, .ticket.done .stub { display:none; }
@@ -138,19 +142,20 @@
   .facts .n { font-size:64px; color:var(--amber); }
   .facts .l { color:var(--mute); margin-top:8px; }
 
-  /* charter */
-  .tiers { border-top:1px solid var(--line); }
-  .tier { display:grid; grid-template-columns:120px 1fr 1.4fr 160px 180px; gap:20px; align-items:center; padding:22px 0; border-bottom:1px solid var(--line); }
-  .tier .cond { font-size:52px; }
-  .tier .cond.amber { color:var(--amber); }
-  .tier h3 { font-size:18px; text-transform:uppercase; }
-  .tier p { color:var(--mute); }
-  .tier .price { font-size:13px; }
-  .tier .price b { font-family:"Archivo"; font-stretch:62%; font-weight:900; font-size:38px; color:var(--cream); }
-  .tier a { justify-self:end; text-decoration:none; font-weight:800; text-transform:uppercase; letter-spacing:.1em; font-size:11px; border:1px solid var(--cream); padding:10px 14px; }
-  .tier a:hover { background:var(--cream); color:#111; }
+  .prov { display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:start; }
+  .prov ul { list-style:none; border-top:1px solid var(--line); }
+  .prov li { display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid var(--line); }
+  .prov li span:last-child { color:var(--dim); text-align:right; }
+  .pform { border:1px solid var(--line); padding:24px; }
+  .pform h3 { font-size:40px; margin-bottom:14px; }
+  .pform p { color:var(--mute); margin-bottom:16px; }
+  .pform label { display:block; font-size:10px; text-transform:uppercase; letter-spacing:.12em; color:var(--dim); margin:12px 0 4px; }
+  .pform input, .pform textarea { color:var(--cream); border-bottom-color:var(--line); }
+  .pform input:focus, .pform textarea:focus { border-bottom-color:var(--amber); }
+  .pform button { margin-top:18px; font:inherit; font-weight:800; text-transform:uppercase; letter-spacing:.1em; background:none; color:var(--amber); border:1px solid var(--amber); padding:12px 16px; cursor:pointer; }
+  .pform button:hover { background:var(--amber); color:#111; }
+  .pform .ok { display:none; color:var(--green); font-weight:700; margin-top:14px; }
 
-  /* faq */
   .faq { display:grid; grid-template-columns:1fr 1fr; gap:0 40px; }
   details { border-top:1px solid var(--line); padding:18px 0; }
   summary { cursor:pointer; list-style:none; display:flex; gap:16px; font-size:15px; text-transform:uppercase; letter-spacing:.04em; }
@@ -158,52 +163,45 @@
   summary::before { content:"▸"; color:var(--amber); transition:transform .15s; }
   details[open] summary::before { transform:rotate(90deg); }
   summary .no { color:var(--dim); margin-left:auto; font-size:11px; }
-  details p { color:var(--mute); padding:12px 0 0 28px; max-width:56ch; }
+  details p { color:var(--mute); padding:12px 0 0 28px; max-width:58ch; }
 
-  /* footer */
   .ticker { margin-top:80px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); overflow:hidden; white-space:nowrap; padding:10px 0; color:var(--amber); text-transform:uppercase; letter-spacing:.1em; font-size:12px; }
   .ticker span { display:inline-block; animation:tick 60s linear infinite; }
   @keyframes tick { to { transform:translateX(-50%); } }
-  footer .wrap { display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:30px; padding:40px 28px 60px; }
+  footer .wrap { display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:30px; padding:40px 28px 60px; }
   footer h4 { font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); margin-bottom:12px; font-weight:400; }
   footer ul { list-style:none; display:grid; gap:6px; }
   footer a { text-decoration:none; }
   footer a:hover { color:var(--amber); }
   footer .big { font-size:96px; color:var(--amber); }
 
-  @media (prefers-reduced-motion:reduce) { .f.flip, .ticker span, .st.last { animation:none; } }
-
+  @media (prefers-reduced-motion:reduce) { .f.flip, .ticker span { animation:none; } }
   @media (max-width:960px) { .intro { grid-template-columns:1fr; } h1 { font-size:12.5vw; } }
   @media (max-width:1100px) {
-    .fleet { grid-template-columns:repeat(3,1fr); }
-    .lower { grid-template-columns:1fr; }
-    .tier { grid-template-columns:90px 1fr 140px; }
-    .tier p, .tier a { display:none; }
+    .lower, .prov { grid-template-columns:1fr; }
     nav { display:none; }
+    .head, .row { grid-template-columns:70px 1.3fr 90px 1fr 130px; }
+    .c-prov { display:none; }
   }
   @media (max-width:760px) {
     .wrap { padding:0 16px; }
     .intro { gap:20px; padding-top:36px; }
     .head { display:none; }
-    .row { grid-template-columns:auto 1fr auto; gap:6px 12px; padding:12px 4px; }
-    .row .c-dest, .row .c-job { display:none; }
-    .row .c-eta { grid-column:3; grid-row:1; }
-    .row .st { grid-column:2 / 4; font-size:11px; }
+    .row { grid-template-columns:auto 1fr; gap:6px 12px; padding:12px 4px; }
+    .row > * { grid-column:2; }
+    .row > .flaps { grid-column:1; grid-row:1 / span 4; align-self:start; }
     .f { width:16px; height:26px; font-size:15px; }
     .route { grid-template-columns:1fr; gap:26px; }
     .route::before { left:15px; right:auto; top:0; bottom:0; border-top:0; border-left:2px dashed var(--line); }
     .stop { padding-left:52px; padding-right:0; }
     .stop .dot { position:absolute; left:0; top:0; }
     .stop .t { margin-top:4px; }
-    .fleet { grid-template-columns:1fr 1fr; }
-    .unit .code { font-size:48px; }
     .ticket { grid-template-columns:1fr; }
     .ticket .main { border-right:0; border-bottom:2px dashed #111; }
     .ticket::before, .ticket::after { display:none; }
     .fields { grid-template-columns:1fr; }
     .faq { grid-template-columns:1fr; }
-    footer .wrap { grid-template-columns:1fr 1fr; }
-    footer .wrap > div:first-child { grid-column:1/-1; }
+    footer .wrap { grid-template-columns:1fr; }
     .clock small { display:none; }
   }
 </style>
@@ -212,88 +210,99 @@
 <header>
   <div class="wrap">
     <a class="logo wide" href="#">RENT<span>HUMANOID</span></a>
-    <nav><a href="#board">Live board</a><a href="#fleet">Fleet</a><a href="#how">How it works</a><a href="#charter">Business</a><a href="#faq">FAQ</a></nav>
+    <nav><a href="#board">Live board</a><a href="#robots">Robots</a><a href="#how">How it works</a><a href="#providers">Providers</a><a href="#faq">FAQ</a></nav>
     <div class="clock"><small>Local</small><span id="clock">00:00:00</span></div>
   </div>
 </header>
 
 <main class="wrap">
   <div class="intro">
-    <h1 class="cond">Next unit<br>leaves in <em id="mins">07</em> min</h1>
+    <h1 class="cond"><em id="heroN">00</em> humanoids<br>rentable today</h1>
     <div>
-      <p>Live dispatch from six depots. Pick a unit that's free, tell it where to go. It walks out of the bay, gets in a van, and is at your door by tomorrow morning.</p>
-      <a class="cta" href="#book">Book a unit →</a>
+      <p>Every humanoid robot you can actually rent, lease or hire as a service — live, with the provider, the listed price and the source. Pick one, send a request, we put you in touch.</p>
+      <a class="cta" href="#request">Request a rental →</a>
     </div>
   </div>
 
   <div class="board" id="board">
     <div class="board-top">
-      <div class="depots" id="depots"></div>
-      <div class="filters" id="filters"></div>
+      <div class="chips" id="modeChips"></div>
+      <div class="chips" id="regionChips"></div>
     </div>
-    <div class="head label"><span>Unit</span><span>Model</span><span>Destination</span><span>ETA</span><span>Job</span><span>Status</span></div>
-    <div id="rows"></div>
-    <div class="board-foot"><span id="depotName"></span><span>Click an available unit to book it · updated <b class="amber" id="upd">just now</b></span></div>
+    <div class="head label"><span>Region</span><span>Robot</span><span>Mode</span><span class="c-prov">Provider</span><span>Listed price</span><span>Status</span></div>
+    <div id="rows"><div class="empty">Loading live listings…</div></div>
+    <div class="board-foot"><span id="boardCount"></span><span>Data: <a href="https://humanoidonline.com" target="_blank" rel="noopener">HumanoidOnline</a> · each row links its source · click a row to request it</span></div>
   </div>
 
   <section id="how">
-    <div class="sec-head"><div><div class="gate">GATE 01</div><h2 class="cond">How dispatch works</h2></div><p>Same rhythm every time. Book by 18:00, unit on site next morning. Every step is on the board, and so is a human you can call.</p></div>
+    <div class="sec-head"><div><div class="gate">GATE 01</div><h2 class="cond">How renting works</h2></div><p>We don't own the robots. Providers do. We find what's really available and connect you with the right one.</p></div>
     <div class="route">
-      <div class="stop"><div class="dot">1</div><div class="t">T − 1 DAY</div><h3 class="cond">Book</h3><p>Pick a model and the hours. You'll get a boarding pass with your unit number and the operator's direct line.</p></div>
-      <div class="stop"><div class="dot">2</div><div class="t">05:30</div><h3 class="cond">Bay check</h3><p>Charged, calibrated, briefed on your job. Your operator signs it out.</p></div>
-      <div class="stop"><div class="dot">3</div><div class="t">06:10</div><h3 class="cond">In transit</h3><p>Van to your door. Track it live. The unit walks the last 30 metres itself.</p></div>
-      <div class="stop"><div class="dot">4</div><div class="t">08:00</div><h3 class="cond">On site</h3><p>It works the hours you booked. Want changes? Tell it, or call the operator.</p></div>
-      <div class="stop"><div class="dot">✓</div><div class="t">END OF SHIFT</div><h3 class="cond">Return</h3><p>It walks back to the van. You get an invoice and a short shift report.</p></div>
+      <div class="stop"><div class="dot">1</div><div class="t">Find</div><h3 class="cond">Pick a listing</h3><p>Every row on the board is a real offer from a named provider, with the date it was last checked and a link to the source.</p></div>
+      <div class="stop"><div class="dot">2</div><div class="t">Request</div><h3 class="cond">Tell us the job</h3><p>Where, when, how long, what it needs to do. No account needed.</p></div>
+      <div class="stop"><div class="dot">3</div><div class="t">Quote</div><h3 class="cond">Provider quotes</h3><p>We pass your request to the provider. Final price, delivery, insurance and operator terms come from them.</p></div>
+      <div class="stop"><div class="dot">✓</div><div class="t">Deploy</div><h3 class="cond">Robot on site</h3><p>You contract with the provider directly. The robot arrives on their terms and goes back when the rental ends.</p></div>
     </div>
   </section>
 
-  <section id="fleet">
-    <div class="sec-head"><div><div class="gate">GATE 02</div><h2 class="cond">The fleet</h2></div><p>Five models, 214 units. All bipedal, all supervised by a licensed human, all charged by the hour from a 4-hour minimum.</p></div>
-    <div class="fleet" id="fleetGrid"></div>
+  <section id="robots">
+    <div class="sec-head"><div><div class="gate">GATE 02</div><h2 class="cond">The robots</h2></div><p>Specs as published by the manufacturer, via HumanoidOnline. Drawings are schematic, scaled to real height.</p></div>
+    <div class="fleet" id="fleetGrid"><div class="unit"><div class="for">Loading…</div></div></div>
   </section>
 
-  <section id="book">
-    <div class="sec-head"><div><div class="gate">GATE 03</div><h2 class="cond">Boarding</h2></div><p>No account needed to see a price. We'll confirm by phone within the hour.</p></div>
+  <section id="request">
+    <div class="sec-head"><div><div class="gate">GATE 03</div><h2 class="cond">Request a rental</h2></div><p>Free to ask. We'll reply by email within one business day with next steps from the provider.</p></div>
     <div class="lower">
-      <form class="ticket" id="ticket" name="booking" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="booking"><input type="hidden" name="unit" id="unitField"><input type="hidden" name="order" id="orderField">
+      <form class="ticket" id="ticket" name="rental-request" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="rental-request"><input type="hidden" name="ref" id="refField">
         <p hidden><label>Leave empty <input name="bot-field"></label></p>
         <div class="main">
-          <div class="tk-title wide">Boarding pass / Hire order</div>
+          <div class="tk-title wide">Rental request</div>
           <div class="fields">
-            <div><label for="model">Model</label><select id="model" name="model"></select></div>
-            <div><label for="depot">Depot</label><select id="depot" name="depot"></select></div>
-            <div><label for="qty">Units</label><input id="qty" name="units" type="number" min="1" max="20" value="2"></div>
-            <div><label for="hrs">Hours (min. 4)</label><input id="hrs" name="hours" type="number" min="4" max="72" value="8"></div>
-            <div><label for="date">Date</label><input id="date" name="date" type="date" required></div>
-            <div><label for="phone">Phone</label><input id="phone" name="phone" type="tel" placeholder="+31 6 …" required></div>
-            <div class="full"><label for="addr">Destination</label><input id="addr" name="destination" placeholder="Street, city" required></div>
+            <div class="full"><label for="listing">Listing</label><select id="listing" name="listing"><option value="">Not sure yet — help me choose</option></select></div>
+            <div><label for="start">Start date</label><input id="start" name="start" type="date"></div>
+            <div><label for="duration">Duration</label><input id="duration" name="duration" placeholder="e.g. 2 weeks"></div>
+            <div class="full"><label for="where">Location</label><input id="where" name="location" placeholder="City, country" required></div>
+            <div><label for="name">Name</label><input id="name" name="name" autocomplete="name" required></div>
+            <div><label for="company">Company</label><input id="company" name="company" autocomplete="organization"></div>
+            <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+            <div><label for="phone">Phone (optional)</label><input id="phone" name="phone" type="tel" autocomplete="tel"></div>
+            <div class="full"><label for="job">What should it do?</label><textarea id="job" name="job" placeholder="Event greeting, research, logistics pilot…"></textarea></div>
           </div>
-          <p class="privacy">We use your phone number only to confirm this booking. Deleted after 12 months. <span id="formErr"></span></p>
-          <div class="total"><div><div class="label" style="color:#555">Estimated fare</div><b class="cond" id="fare">€608</b></div><div class="note">Excl. VAT<br>Delivery included<br>Operator on call 24/7</div></div>
+          <div class="listed"><div><div class="label" style="color:#555">Listed price</div><b class="cond" id="lp">—</b></div><div class="note" id="lpNote">Pick a listing to see the provider's published price and its basis.</div></div>
+          <p class="privacy">We use your details only to handle this request and share them with the provider you picked. Deleted after 12 months. <span id="formErr"></span></p>
         </div>
         <div class="stub">
-          <div><div class="label">Gate</div><div class="big cond" id="gate">B4</div><div class="label" style="margin-top:14px">Unit</div><div class="big cond" id="unitNo">—</div></div>
+          <div><div class="label">Region</div><div class="big cond" id="sRegion">—</div><div class="label" style="margin-top:14px">Mode</div><div class="mid cond" id="sMode">—</div></div>
           <div class="barcode"></div>
-          <button class="go" type="submit" id="goBtn">Dispatch →</button>
+          <button class="go" type="submit" id="goBtn">Send request →</button>
         </div>
-        <div class="confirm"><div class="label" style="color:#555">Order received</div><div class="cond" id="confNo">RH-0000</div><p style="margin-top:12px">Your operator will call you within the hour to confirm.<br>Then the unit's on the board.</p></div>
+        <div class="confirm"><div class="label" style="color:#555">Request received</div><div class="cond" id="confNo">RH-0000</div><p style="margin-top:12px">We'll email you within one business day.</p></div>
       </form>
       <div class="facts">
-        <div><div class="n cond">214</div><div class="l">Units in fleet. <span id="outCount">61</span> out on jobs right now.</div></div>
-        <div><div class="n cond">06</div><div class="l">Depots. Rotterdam, Antwerp, Lille, Köln, Leeds, Lyon.</div></div>
-        <div><div class="n cond">1:1</div><div class="l">Every unit has a licensed human operator on the other end of a phone.</div></div>
-        <div><div class="n cond">€25K</div><div class="l">Insurance per incident, included. Ladders not included. Ever.</div></div>
+        <div><div class="n cond" id="fRobots">—</div><div class="l">Humanoids with a rental, lease or as-a-service offer right now.</div></div>
+        <div><div class="n cond" id="fProviders">—</div><div class="l">Providers behind those offers.</div></div>
+        <div><div class="n cond" id="fRegions">—</div><div class="l">Countries and regions where they're offered.</div></div>
+        <div><div class="n cond" id="fTracked">—</div><div class="l">Humanoid robots tracked in the HumanoidOnline catalogue. The board grows as more of them become rentable.</div></div>
       </div>
     </div>
   </section>
 
-  <section id="charter">
-    <div class="sec-head"><div><div class="gate">GATE 04</div><h2 class="cond">Charter</h2></div><p>For warehouses, festivals, hotels and hospitals. A human account manager, fixed bays, priority dispatch.</p></div>
-    <div class="tiers">
-      <div class="tier"><div class="cond">01–09</div><div><h3>Walk-up</h3></div><p>Book online, any model, any day. Standard rates.</p><div class="price"><b>List</b> rate</div><a href="#book">Book now</a></div>
-      <div class="tier"><div class="cond amber">10–49</div><div><h3>Charter</h3></div><p>Same units every shift, so they learn your site. Monthly invoicing. Account manager.</p><div class="price"><b>−18%</b> per hour</div><a href="#">Get a quote</a></div>
-      <div class="tier"><div class="cond">50+</div><div><h3>Own bay</h3></div><p>A dedicated bay at your nearest depot, on-site operator, custom training for your workflow.</p><div class="price"><b>Quote</b> only</div><a href="#">Talk to us</a></div>
+  <section id="providers">
+    <div class="sec-head"><div><div class="gate">GATE 04</div><h2 class="cond">Providers</h2></div><p>Who's renting humanoids today. Rent them out yourself? Get on the board.</p></div>
+    <div class="prov">
+      <ul id="provList"></ul>
+      <form class="pform" id="pform" name="provider-listing" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="provider-listing">
+        <p hidden><label>Leave empty <input name="bot-field"></label></p>
+        <h3 class="cond">List your robots</h3>
+        <p>Tell us what you rent out and where. Listings need a public source (a price page, terms or rental page) so renters can check it.</p>
+        <label for="pc">Company</label><input id="pc" name="company" required>
+        <label for="pe">Email</label><input id="pe" name="email" type="email" required>
+        <label for="pr">Robots and regions</label><textarea id="pr" name="robots" placeholder="e.g. 4× Unitree G1, Germany + Austria, weekly rental"></textarea>
+        <label for="pu">Link to your rental page</label><input id="pu" name="url" type="url" placeholder="https://">
+        <button type="submit">Get listed →</button>
+        <div class="ok" id="pOk">Thanks — we'll be in touch.</div>
+      </form>
     </div>
   </section>
 
@@ -303,140 +312,174 @@
   </section>
 </main>
 
-<div class="ticker"><span id="tk"></span></div>
+<div class="ticker"><span id="tk">Loading live listings ★ </span></div>
 <footer>
   <div class="wrap">
-    <div><div class="big cond">RH</div><p style="color:var(--mute);max-width:32ch">RentHumanoid B.V. — humanoids for hire, dispatched daily from six depots.</p></div>
-    <div><h4>Depots</h4><ul id="footDepots"></ul></div>
-    <div><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Safety record</a></li><li><a href="#">Operators — we're hiring</a></li><li><a href="#">Press</a></li></ul></div>
-    <div><h4>Help</h4><ul><li><a href="#">Track a unit</a></li><li><a href="#">Terms of hire</a></li><li><a href="#">Damage claims</a></li><li><a href="tel:+31105550147">010 555 0147</a></li></ul></div>
+    <div><div class="big cond">RH</div><p style="color:var(--mute);max-width:36ch">RentHumanoid — live humanoid robot rentals. Listings data from the HumanoidOnline catalogue.</p></div>
+    <div><h4>On this page</h4><ul><li><a href="#board">Live board</a></li><li><a href="#robots">Robots</a></li><li><a href="#request">Request a rental</a></li><li><a href="#providers">List your robots</a></li></ul></div>
+    <div><h4>Data</h4><ul><li><a href="https://humanoidonline.com" target="_blank" rel="noopener">HumanoidOnline.com ↗</a></li><li><a href="https://humanoidonline.com/robots" target="_blank" rel="noopener">Full robot catalogue ↗</a></li></ul></div>
   </div>
 </footer>
 
 <script>
 const $ = id => document.getElementById(id);
-const CH = " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-";
-
-const MODELS = {
-  "HX-2": { name:"Porter",   rate:38,  h:1780, kg:25, run:9,  for:"Pallets, moves, stacking, festival builds." },
-  "QL-1": { name:"Queuer",   rate:19,  h:1700, kg:2,  run:16, for:"Stands in line for you. Texts when it's close." },
-  "DM-3": { name:"Domestic", rate:42,  h:1650, kg:12, run:8,  for:"Laundry, dishes, plants. Folds a fitted sheet." },
-  "MR-4": { name:"Maître",   rate:54,  h:1740, kg:6,  run:12, for:"Serving, clearing, coat check. Remembers the fish." },
-  "HZ-9": { name:"Hazard",   rate:140, h:1880, kg:40, run:6,  for:"Heat, fumes, freezer rooms, tight spaces.", lic:true },
-};
-const DEPOTS = {
-  RTM:{ name:"Rotterdam", gate:"B4", out:61, jobs:[
-    ["0118","HX-2","Antwerpen","0640","Pallet stacking","free"],["0447","QL-1","Paris Gare N.","NOW","Passport line","out"],
-    ["0031","MR-4","Den Haag","1800","Wedding · 140 pax","busy"],["0209","DM-3","Delft","0915","Weekly clean","free"],
-    ["0122","HX-2","Utrecht","0730","House move","last"],["0004","HZ-9","Port bay 7","1100","Tank inspection","busy"],
-    ["0131","HX-2","—","TBD","Unassigned","free"]]},
-  ANR:{ name:"Antwerpen", gate:"A2", out:22, jobs:[
-    ["0210","HX-2","Gent","0700","Container unload","busy"],["0233","MR-4","Brussel","1900","Gala dinner","free"],
-    ["0261","QL-1","Antwerpen C.","NOW","Concert tickets","out"],["0270","DM-3","Mechelen","1000","Spring clean","free"],
-    ["0288","HX-2","—","TBD","Unassigned","free"]]},
-  LIL:{ name:"Lille", gate:"C1", out:9, jobs:[
-    ["0301","HX-2","Roubaix","0800","Retail restock","busy"],["0312","DM-3","Lille","0930","Weekly clean","last"],
-    ["0320","MR-4","Arras","2000","Hotel banquet","free"]]},
-  CGN:{ name:"Köln", gate:"D6", out:14, jobs:[
-    ["0402","HZ-9","Leverkusen","0600","Reactor wash","busy"],["0415","HX-2","Bonn","0730","Office move","free"],
-    ["0421","QL-1","Köln Hbf","NOW","Visa office","out"],["0433","HX-2","Düsseldorf","0800","Trade fair build","free"]]},
-  LBA:{ name:"Leeds", gate:"E3", out:11, jobs:[
-    ["0501","DM-3","Harrogate","0900","Care home laundry","free"],["0517","HX-2","York","0700","Warehouse pick","busy"],
-    ["0522","MR-4","Leeds","1830","Wedding · 90 pax","last"]]},
-  LYS:{ name:"Lyon", gate:"F1", out:0, jobs:[] },
-};
-const LABEL = { free:"Available", busy:"On site", out:"Boarding", last:"Last call" };
-let depot = "RTM", filter = "all", picked = null;
-
-const flaps = (s,n) => `<div class="flaps">${s.toUpperCase().padEnd(n).slice(0,n).split('').map(c=>`<span class="f" data-c="${c}">${c}</span>`).join('')}</div>`;
-function scramble(el){ const target = el.dataset.c; let n = 5 + Math.floor(Math.random()*9);
-  const t = setInterval(()=>{ el.classList.remove('flip'); void el.offsetWidth; el.classList.add('flip');
-    el.textContent = --n <= 0 ? target : CH[Math.floor(Math.random()*CH.length)]; if (n <= 0) clearInterval(t); }, 55); }
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const CH = " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+const API = location.protocol === 'file:' ? 'https://humanoidonline-api.vercel.app/api' : '/api';
+const MODES = { RENTAL:'Rental', LEASE:'Lease', RAAS:'As a service' };
+const STATUS = { AVAILABLE:'Available', ON_REQUEST:'On request', PREORDER:'Pre-order', WAITLIST:'Waitlist' };
+const PERIOD = { HOURLY:'/ hour', DAILY:'/ day', WEEKLY:'/ week', MONTHLY:'/ month', YEARLY:'/ year', ONE_TIME:'' };
+const regionNames = new Intl.DisplayNames(['en'], { type:'region' });
+const regionName = c => c === 'GLOBAL' ? 'Worldwide' : c === 'EU' ? 'European Union' : (() => { try { return regionNames.of(c); } catch { return c; } })();
+const regionCode = c => c === 'GLOBAL' ? 'ALL' : c;
+const money = (n, cur) => new Intl.NumberFormat('en', { style:'currency', currency:cur, maximumFractionDigits:0 }).format(n);
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-function renderBoard(){
-  const d = DEPOTS[depot];
-  const jobs = d.jobs.filter(j => filter === "all" || (filter === "free" ? j[5] === "free" : j[1] === filter));
-  $('rows').innerHTML = jobs.length ? jobs.map(j => { const m = MODELS[j[1]]; return `<div class="row ${picked===j[0]?'sel':''}" data-unit="${j[0]}" data-model="${j[1]}" data-st="${j[5]}">
-    ${flaps(j[0],4)}
-    <div class="txt m">${j[1]} ${m.name}<div class="sub">€${m.rate}/h · ${m.kg} kg · ${m.run} h battery</div></div>
-    <div class="txt c-dest">${j[2]}</div>
-    <div class="c-eta">${flaps(j[3],4)}</div>
-    <div class="txt c-job">${j[4]}</div>
-    <div class="st ${j[5]}">${LABEL[j[5]]}</div></div>`; }).join('')
-    : `<div class="empty">${d.jobs.length ? "No units match this filter." : "Depot opens 1 December 2026. Units in training."}</div>`;
-  $('depotName').textContent = `Depot ${depot}-01 ${d.name} · ${d.jobs.length} on board`;
-  if (!reduced) document.querySelectorAll('#rows .f').forEach((f,i) => setTimeout(()=>scramble(f), i*18));
-  document.querySelectorAll('#depots .chip').forEach(c => c.classList.toggle('on', c.dataset.d === depot));
-  document.querySelectorAll('#filters .chip').forEach(c => c.classList.toggle('on', c.dataset.f === filter));
-  $('outCount').textContent = d.out;
+// Price wording follows HumanoidOnline's contract: "price on request" (quote-only) is not the same as "no confirmed pricing" (unknown).
+function priceText(p) {
+  if (!p) return { main:'No confirmed pricing', none:true };
+  if (p.price_type === 'QUOTE_ONLY') return { main:'Price on request', none:true };
+  const per = PERIOD[p.billing_period] ?? '';
+  let main;
+  if (p.price_type === 'RANGE') main = `${money(p.price_min, p.currency)}–${money(p.price_max, p.currency)}`;
+  else main = (p.price_type === 'FROM' ? 'from ' : ['ESTIMATED','MANUFACTURER_ESTIMATE'].includes(p.price_type) ? 'est. ' : '') + money(p.price, p.currency);
+  return { main: `${main} ${per}`.trim(), basis: p.price_basis || '' };
 }
-$('depots').innerHTML = Object.keys(DEPOTS).map(k => `<button class="chip" data-d="${k}">${k}</button>`).join('');
-$('filters').innerHTML = [["all","All"],["free","Available"],...Object.keys(MODELS).map(k=>[k,k])].map(([k,l]) => `<button class="chip" data-f="${k}">${l}</button>`).join('');
-$('depots').onclick = e => { if (e.target.dataset.d) { depot = e.target.dataset.d; $('depot').value = depot; renderBoard(); fare(); } };
-$('filters').onclick = e => { if (e.target.dataset.f) { filter = e.target.dataset.f; renderBoard(); } };
-$('rows').onclick = e => { const r = e.target.closest('.row'); if (!r) return;
-  if (r.dataset.st !== 'free') { r.querySelector('.st').animate([{transform:'translateX(-4px)'},{transform:'translateX(4px)'},{transform:'none'}],{duration:200}); return; }
-  picked = r.dataset.unit; $('model').value = r.dataset.model; $('unitNo').textContent = picked; $('qty').value = 1;
-  renderBoard(); fare(); $('book').scrollIntoView(); };
-setInterval(() => { if (reduced) return; const all = document.querySelectorAll('#rows .f'); for (let k=0;k<3 && all.length;k++) scramble(all[Math.floor(Math.random()*all.length)]); }, 2400);
 
-// fleet
-const fig = s => `<svg viewBox="40 0 220 600" fill="none" stroke="#FFB400" stroke-width="3" aria-hidden="true" style="transform:scale(${s})">
+let listings = [], robots = [], mode = 'ALL', region = 'ALL', picked = null;
+
+async function load() {
+  const get = u => fetch(API + u).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+  get('/robots?limit=1').then(d => { $('fTracked').textContent = d.total; }).catch(() => {});
+  const lists = await Promise.all(Object.keys(MODES).map(t => get(`/robots?transaction_type=${t}&limit=100`)));
+  const slugs = [...new Set(lists.flatMap(l => l.items.map(i => i.slug)))];
+  robots = await Promise.all(slugs.map(s => get(`/robots/${encodeURIComponent(s)}`)));
+  for (const r of robots) {
+    for (const a of r.availability_offers.filter(a => MODES[a.transaction_type])) {
+      const prices = r.pricing_offers.filter(p => p.transaction_type === a.transaction_type);
+      const price = prices.find(p => p.provider === a.provider && p.region === a.region) || prices.find(p => p.provider === a.provider) || null;
+      listings.push({ id: `${r.slug}|${a.transaction_type}|${a.provider}|${a.region}`, robot:r, offer:a, price, pt: priceText(price) });
+    }
+  }
+  const order = { RENTAL:0, LEASE:1, RAAS:2 }, avail = l => l.offer.availability_status === 'AVAILABLE' ? 0 : 1;
+  listings.sort((x, y) => order[x.offer.transaction_type] - order[y.offer.transaction_type] || avail(x) - avail(y) || x.robot.name.localeCompare(y.robot.name));
+  robots.sort((x, y) => listings.findIndex(l => l.robot === x) - listings.findIndex(l => l.robot === y));
+}
+
+const flaps = (s, n) => `<div class="flaps">${String(s).toUpperCase().padEnd(n).slice(0, n).split('').map(c => `<span class="f" data-c="${esc(c)}">${esc(c)}</span>`).join('')}</div>`;
+function scramble(el) { const target = el.dataset.c; let n = 5 + Math.floor(Math.random() * 9);
+  const t = setInterval(() => { el.classList.remove('flip'); void el.offsetWidth; el.classList.add('flip');
+    el.textContent = --n <= 0 ? target : CH[Math.floor(Math.random() * CH.length)]; if (n <= 0) clearInterval(t); }, 55); }
+const animate = sel => { if (!reduced) document.querySelectorAll(sel).forEach((f, i) => setTimeout(() => scramble(f), i * 18)); };
+const date = s => s ? new Date(s).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }) : '';
+const short = t => { t = t || ''; if (t.length <= 150) return t; const cut = t.slice(0, 150); return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,;:.\s]+$/, '') + '…'; };
+const specLine = r => { const s = r.specs || {}; return [s.height_cm && `${Math.round(s.height_cm)} cm`, s.weight_kg && `${s.weight_kg} kg`, s.degrees_of_freedom && `${s.degrees_of_freedom} DoF`, s.mobility && s.mobility.toLowerCase()].filter(Boolean).join(' · '); };
+
+function renderBoard() {
+  const rows = listings.filter(l => (mode === 'ALL' || l.offer.transaction_type === mode) && (region === 'ALL' || l.offer.region === region));
+  $('rows').innerHTML = rows.length ? rows.map(l => { const o = l.offer, r = l.robot, st = o.availability_status;
+    return `<div class="row ${picked === l.id ? 'sel' : ''}" data-id="${esc(l.id)}">
+      ${flaps(regionCode(o.region), 3)}
+      <div class="txt m">${esc(r.name)}<div class="sub">${esc(r.manufacturer.name)} · ${esc(specLine(r))}</div></div>
+      <span class="mode ${o.transaction_type}">${MODES[o.transaction_type].toUpperCase()}</span>
+      <div class="txt c-prov">${esc(o.provider_name || '—')}<div class="sub">${esc(regionName(o.region))}${o.evidence?.source_url ? ` · <a href="${esc(o.evidence.source_url)}" target="_blank" rel="noopener">source ↗</a>` : ''} · checked ${esc(date(o.evidence?.observed_at))}</div></div>
+      <div class="price ${l.pt.none ? 'none' : ''}">${esc(l.pt.main)}</div>
+      <div class="st ${STATUS[st] ? st : 'other'}">${esc(STATUS[st] || st.replace(/_/g, ' ').toLowerCase())}</div></div>`; }).join('')
+    : `<div class="empty">No listings match. <a href="#request">Send a request anyway</a> — we'll search beyond the board.</div>`;
+  $('boardCount').textContent = `${rows.length} of ${listings.length} listings · loaded ${new Date().toTimeString().slice(0, 5)}`;
+  document.querySelectorAll('#modeChips .chip').forEach(c => c.classList.toggle('on', c.dataset.v === mode));
+  document.querySelectorAll('#regionChips .chip').forEach(c => c.classList.toggle('on', c.dataset.v === region));
+  animate('#rows .f');
+}
+
+const fig = s => `<svg viewBox="40 0 220 600" fill="none" stroke="#FFB400" stroke-width="3" aria-hidden="true" style="height:${Math.round(150 * s)}px">
   <rect x="125" y="20" width="50" height="62" rx="18"/><rect x="133" y="40" width="34" height="12" rx="6" fill="#FFB400"/>
   <rect x="140" y="82" width="20" height="14"/><path d="M95 100 L205 100 L195 230 L105 230 Z"/><path d="M110 238 L190 238 L182 285 L118 285 Z"/>
   <circle cx="81" cy="106" r="13"/><circle cx="219" cy="106" r="13"/><rect x="70" y="120" width="22" height="96" rx="10"/><rect x="208" y="120" width="22" height="96" rx="10"/>
   <rect x="71" y="232" width="20" height="96" rx="9"/><rect x="209" y="232" width="20" height="96" rx="9"/><rect x="69" y="332" width="24" height="34" rx="6"/><rect x="207" y="332" width="24" height="34" rx="6"/>
   <rect x="118" y="292" width="28" height="128" rx="12"/><rect x="154" y="292" width="28" height="128" rx="12"/><rect x="120" y="442" width="24" height="120" rx="10"/><rect x="156" y="442" width="24" height="120" rx="10"/>
   <rect x="112" y="566" width="40" height="16" rx="4"/><rect x="148" y="566" width="40" height="16" rx="4"/></svg>`;
-$('fleetGrid').innerHTML = Object.entries(MODELS).map(([k,m]) => `<article class="unit">
-  <div><div class="code cond">${k}</div><div class="name">${m.name} ${m.lic?'<span class="lic">· licence req.</span>':''}</div></div>
-  ${fig(m.h/1880)}
-  <dl><dt>Height</dt><dd>${m.h} mm</dd><dt>Payload</dt><dd>${m.kg} kg</dd><dt>Battery</dt><dd>${m.run} h</dd></dl>
-  <div class="for">${m.for}</div>
-  <div class="rate"><b class="cond">€${m.rate}<span style="font-size:16px">/h</span></b><button data-m="${k}">Book</button></div></article>`).join('');
-$('fleetGrid').onclick = e => { const k = e.target.dataset.m; if (k) { $('model').value = k; picked = null; $('unitNo').textContent = '—'; fare(); $('book').scrollIntoView(); } };
 
-// booking
-$('model').innerHTML = Object.entries(MODELS).map(([k,m]) => `<option value="${k}">${k} ${m.name} — €${m.rate}/h</option>`).join('');
-$('depot').innerHTML = Object.entries(DEPOTS).map(([k,d]) => `<option value="${k}" ${d.jobs.length?'':'disabled'}>${d.name}${d.jobs.length?'':' (opens Dec)'}</option>`).join('');
-const tomorrow = new Date(Date.now()+864e5).toISOString().slice(0,10); $('date').min = $('date').value = tomorrow;
-function fare(){ const q = Math.max(1, +$('qty').value||1), h = Math.max(4, +$('hrs').value||4);
-  $('fare').textContent = '€' + (MODELS[$('model').value].rate*q*h).toLocaleString('en');
-  $('gate').textContent = DEPOTS[$('depot').value].gate; }
-['model','qty','hrs','depot'].forEach(id => $(id).addEventListener('input', fare));
-$('model').addEventListener('input', () => { picked = null; $('unitNo').textContent = '—'; });
-$('depot').addEventListener('input', () => { depot = $('depot').value; renderBoard(); });
+function renderRobots() {
+  $('fleetGrid').innerHTML = robots.map(r => {
+    const s = r.specs || {}, own = listings.filter(l => l.robot === r);
+    if (!own.length) return '';
+    const best = own.find(l => !l.pt.none) || own[0];
+    const dl = [['Height', s.height_cm && `${Math.round(s.height_cm)} cm`], ['Weight', s.weight_kg && `${s.weight_kg} kg`], ['Payload', s.payload_kg && `${s.payload_kg} kg`],
+      ['Runtime', s.runtime_minutes && `${s.runtime_minutes} min`], ['DoF', s.degrees_of_freedom], ['Moves', s.mobility && s.mobility.toLowerCase()]].filter(x => x[1]);
+    const modes = [...new Set(own.map(l => MODES[l.offer.transaction_type]))].join(' · ');
+    return `<article class="unit">
+      <div><div class="code cond">${esc(r.name)}</div><div class="name">${esc(r.manufacturer.name)}</div></div>
+      <div class="fig">${fig(Math.min(1, (s.height_cm || 170) / 190))}</div>
+      <dl>${dl.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
+      <div class="for">${esc(short(r.summary))}</div>
+      <div class="more">${modes} · ${own.length} offer${own.length > 1 ? 's' : ''} · <a href="https://humanoidonline.com/robots/${esc(r.slug)}" target="_blank" rel="noopener">full profile ↗</a></div>
+      <div class="rate"><b class="cond ${best.pt.none ? 'none' : ''}">${esc(best.pt.main)}</b><button data-id="${esc(best.id)}">Request</button></div></article>`; }).join('');
+}
+
+function pick(id) {
+  picked = id || null; const l = listings.find(x => x.id === id);
+  $('listing').value = l ? l.id : '';
+  $('lp').textContent = l ? l.pt.main : '—';
+  $('lpNote').textContent = l ? (l.pt.basis || (l.pt.none ? 'The provider quotes this one directly.' : 'As published by the provider.')) : 'Pick a listing to see the provider\'s published price and its basis.';
+  $('sRegion').textContent = l ? regionCode(l.offer.region) : '—';
+  $('sMode').textContent = l ? MODES[l.offer.transaction_type] : '—';
+  renderBoard();
+}
+
+function renderRest() {
+  const rentableToday = new Set(listings.filter(l => l.offer.transaction_type === 'RENTAL' && l.offer.availability_status === 'AVAILABLE').map(l => l.robot.slug)).size;
+  const providers = {}; listings.forEach(l => { (providers[l.offer.provider_name] ||= new Set()).add(regionName(l.offer.region)); });
+  $('heroN').textContent = String(rentableToday).padStart(2, '0');
+  $('fRobots').textContent = new Set(listings.map(l => l.robot.slug)).size;
+  $('fProviders').textContent = Object.keys(providers).length;
+  $('fRegions').textContent = new Set(listings.map(l => l.offer.region)).size;
+  $('modeChips').innerHTML = [['ALL', 'All'], ...Object.entries(MODES).filter(([k]) => listings.some(l => l.offer.transaction_type === k))].map(([k, v]) => `<button class="chip" data-v="${k}">${v}</button>`).join('');
+  $('regionChips').innerHTML = ['ALL', ...new Set(listings.map(l => l.offer.region))].map(c => `<button class="chip" data-v="${esc(c)}" title="${esc(c === 'ALL' ? 'All regions' : regionName(c))}">${esc(c === 'ALL' ? 'Any region' : regionCode(c))}</button>`).join('');
+  $('listing').innerHTML = '<option value="">Not sure yet — help me choose</option>' + listings.map(l => `<option value="${esc(l.id)}">${esc(l.robot.name)} — ${MODES[l.offer.transaction_type]}, ${esc(l.offer.provider_name)} (${esc(regionName(l.offer.region))})</option>`).join('');
+  $('provList').innerHTML = Object.entries(providers).map(([p, rs]) => `<li><span>${esc(p)}</span><span>${esc([...rs].join(', '))}</span></li>`).join('');
+  $('tk').textContent = (listings.map(l => `${l.robot.name} · ${MODES[l.offer.transaction_type]} · ${l.offer.provider_name} · ${regionName(l.offer.region)} · ${l.pt.main}`).join(' ★ ') + ' ★ ').repeat(4);
+}
+
+$('modeChips').onclick = e => { const v = e.target.dataset.v; if (v) { mode = v; renderBoard(); } };
+$('regionChips').onclick = e => { const v = e.target.dataset.v; if (v) { region = v; renderBoard(); } };
+$('rows').onclick = e => { if (e.target.closest('a')) return; const r = e.target.closest('.row'); if (r) { pick(r.dataset.id); $('request').scrollIntoView(); } };
+$('fleetGrid').onclick = e => { const id = e.target.dataset.id; if (id) { pick(id); $('request').scrollIntoView(); } };
+$('listing').oninput = () => pick($('listing').value);
+$('start').min = new Date().toISOString().slice(0, 10);
+
+async function netlifySubmit(form) {
+  const r = await fetch('/', { method:'POST', headers:{ 'Content-Type':'application/x-www-form-urlencoded' }, body:new URLSearchParams(new FormData(form)).toString() });
+  if (!r.ok) throw new Error(r.status);
+}
 $('ticket').onsubmit = async e => { e.preventDefault();
-  const order = 'RH-' + String(Math.floor(1000+Math.random()*9000));
-  $('orderField').value = order; $('unitField').value = picked || '';
-  $('goBtn').disabled = true; $('formErr').textContent = '';
-  try {
-    const r = await fetch('/', { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:new URLSearchParams(new FormData($('ticket'))).toString() });
-    if (!r.ok) throw new Error(r.status);
-    $('confNo').textContent = order; $('ticket').classList.add('done');
-  } catch { $('formErr').textContent = 'Could not send. Please call 010 555 0147.'; }
+  const ref = 'RH-' + Date.now().toString(36).toUpperCase().slice(-6);
+  $('refField').value = ref; $('goBtn').disabled = true; $('formErr').textContent = '';
+  try { await netlifySubmit($('ticket')); $('confNo').textContent = ref; $('ticket').classList.add('done'); }
+  catch { $('formErr').textContent = 'Could not send — please try again in a minute.'; }
   finally { $('goBtn').disabled = false; } };
+$('pform').onsubmit = async e => { e.preventDefault(); const b = $('pform').querySelector('button'), ok = $('pOk'); b.disabled = true;
+  try { await netlifySubmit($('pform')); ok.style.color = ''; ok.textContent = 'Thanks — we\'ll be in touch.'; $('pform').reset(); }
+  catch { ok.style.color = 'var(--red)'; ok.textContent = 'Could not send — please try again.'; }
+  finally { ok.style.display = 'block'; b.disabled = false; } };
 
-// faq
 const FAQ = [
-  ["Who's actually in control?","Every unit has a licensed human operator who watches its shift remotely and can take over. Their direct number is on your boarding pass."],
-  ["What if it breaks something?","Damage is insured up to €25,000 per incident, included in the rate. Report it to the operator and we handle the claim."],
-  ["Can it climb ladders?","No. Not stepladders, not 'just this once'. It's in the contract, and it's why the insurance is cheap."],
-  ["Does it need anything from me?","A clear walkway, a power socket if you've booked more than 8 hours, and five minutes to show it the job."],
-  ["Can I keep the same unit?","Yes, on Charter plans. Units remember your site layout between shifts, so they get faster."],
-  ["How late can I cancel?","Free until 18:00 the day before. After that we charge 4 hours, because the unit's already been briefed."],
+  ["Do you own the robots?", "No. Each robot belongs to the provider shown on its row. We find real offers, check the source, and connect you with the provider."],
+  ["Where does the data come from?", "From the HumanoidOnline catalogue, which tracks humanoid robots, their specs and who sells, rents or leases them. Each listing links its source and shows when it was last checked."],
+  ["Is the listed price final?", "No. It's the provider's published price, with its basis (VAT, shipping, minimum term) where they state it. Your final price comes in the provider's quote."],
+  ["Rental, lease or as a service?", "Rental: short term, you give the robot back. Lease: a longer contract. As a service: you pay for the work and the provider runs the robot."],
+  ["Who handles insurance, delivery and operators?", "The provider, under their own terms. Ask about it in your request and we'll get the answer in writing before you commit."],
+  ["Why so few listings?", "Renting humanoids is new, and we only list offers we can source. The board updates automatically as providers add rentals. Need something that isn't here? Send a request anyway."],
 ];
-$('faqList').innerHTML = FAQ.map((f,i) => `<details><summary>${f[0]}<span class="no">PA-${String(i+1).padStart(2,'0')}</span></summary><p>${f[1]}</p></details>`).join('');
-$('footDepots').innerHTML = Object.entries(DEPOTS).map(([k,d]) => `<li>${k} · ${d.name}</li>`).join('');
+$('faqList').innerHTML = FAQ.map((f, i) => `<details><summary>${f[0]}<span class="no">PA-${String(i + 1).padStart(2, '0')}</span></summary><p>${f[1]}</p></details>`).join('');
 
-// clock + ticker
-const tick = () => { const d = new Date(); $('clock').textContent = d.toTimeString().slice(0,8);
-  $('mins').textContent = String(9 - (d.getMinutes()%10)).padStart(2,'0'); };
+const tick = () => { $('clock').textContent = new Date().toTimeString().slice(0, 8); };
 tick(); setInterval(tick, 1000);
-$('tk').textContent = "HX-2 0122 departing bay A3 for Utrecht ★ QL-1 0447 holding position 14 of 212 at Paris Gare du Nord ★ MR-4 0031 has polished 312 glasses ★ Lyon depot opens 1 December ★ ".repeat(6);
+setInterval(() => { if (reduced) return; const all = document.querySelectorAll('#rows .f'); for (let k = 0; k < 3 && all.length; k++) scramble(all[Math.floor(Math.random() * all.length)]); }, 2400);
 
-renderBoard(); fare();
+load().then(() => { renderRest(); renderBoard(); renderRobots(); })
+  .catch(() => { $('rows').innerHTML = '<div class="empty">The live board is offline right now. <a href="https://humanoidonline.com/robots" target="_blank" rel="noopener">See the catalogue on HumanoidOnline ↗</a> or <a href="#request">send a request</a>.</div>';
+    $('fleetGrid').innerHTML = ''; $('heroN').textContent = '—'; });
 </script>
 </body>
 </html>
