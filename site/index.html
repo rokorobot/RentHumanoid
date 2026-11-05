@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RentHumanoid — Humanoids for hire, dispatched daily</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="RentHumanoid — Humanoids for hire, dispatched daily">
+<meta property="og:description" content="Live availability from six depots. Next-day delivery. A licensed human operator on every unit.">
+<meta property="og:image" content="https://renthumanoid.netlify.app/og.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#111110">
 <meta name="description" content="Rent a humanoid by the hour. Live availability from six depots, next-day delivery, a licensed human operator on every unit.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Archivo:wdth,wght@62..125,500..900&display=swap" rel="stylesheet">
@@ -116,6 +123,9 @@
   .total .note { text-align:right; font-size:11px; line-height:1.5; }
   .go { font:inherit; font-weight:800; text-transform:uppercase; letter-spacing:.1em; background:#111; color:var(--amber); border:0; padding:14px 16px; cursor:pointer; width:100%; }
   .go:hover { background:#000; color:#fff; }
+  .go:disabled { opacity:.6; cursor:wait; }
+  .privacy { font-size:11px; color:#555; margin-top:16px; }
+  #formErr { color:#B3261E; font-weight:700; }
   .barcode { height:54px; background:repeating-linear-gradient(90deg,#111 0 2px,transparent 2px 4px,#111 4px 5px,transparent 5px 9px,#111 9px 12px,transparent 12px 13px); }
   .stub .big { font-size:46px; }
   .stub .label { color:#5a4300; }
@@ -245,24 +255,27 @@
   <section id="book">
     <div class="sec-head"><div><div class="gate">GATE 03</div><h2 class="cond">Boarding</h2></div><p>No account needed to see a price. We'll confirm by phone within the hour.</p></div>
     <div class="lower">
-      <form class="ticket" id="ticket">
+      <form class="ticket" id="ticket" name="booking" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="booking"><input type="hidden" name="unit" id="unitField"><input type="hidden" name="order" id="orderField">
+        <p hidden><label>Leave empty <input name="bot-field"></label></p>
         <div class="main">
           <div class="tk-title wide">Boarding pass / Hire order</div>
           <div class="fields">
-            <div><label for="model">Model</label><select id="model"></select></div>
-            <div><label for="depot">Depot</label><select id="depot"></select></div>
-            <div><label for="qty">Units</label><input id="qty" type="number" min="1" max="20" value="2"></div>
-            <div><label for="hrs">Hours (min. 4)</label><input id="hrs" type="number" min="4" max="72" value="8"></div>
-            <div><label for="date">Date</label><input id="date" type="date" required></div>
-            <div><label for="phone">Phone</label><input id="phone" type="tel" placeholder="+31 6 …" required></div>
-            <div class="full"><label for="addr">Destination</label><input id="addr" placeholder="Street, city" required></div>
+            <div><label for="model">Model</label><select id="model" name="model"></select></div>
+            <div><label for="depot">Depot</label><select id="depot" name="depot"></select></div>
+            <div><label for="qty">Units</label><input id="qty" name="units" type="number" min="1" max="20" value="2"></div>
+            <div><label for="hrs">Hours (min. 4)</label><input id="hrs" name="hours" type="number" min="4" max="72" value="8"></div>
+            <div><label for="date">Date</label><input id="date" name="date" type="date" required></div>
+            <div><label for="phone">Phone</label><input id="phone" name="phone" type="tel" placeholder="+31 6 …" required></div>
+            <div class="full"><label for="addr">Destination</label><input id="addr" name="destination" placeholder="Street, city" required></div>
           </div>
+          <p class="privacy">We use your phone number only to confirm this booking. Deleted after 12 months. <span id="formErr"></span></p>
           <div class="total"><div><div class="label" style="color:#555">Estimated fare</div><b class="cond" id="fare">€608</b></div><div class="note">Excl. VAT<br>Delivery included<br>Operator on call 24/7</div></div>
         </div>
         <div class="stub">
           <div><div class="label">Gate</div><div class="big cond" id="gate">B4</div><div class="label" style="margin-top:14px">Unit</div><div class="big cond" id="unitNo">—</div></div>
           <div class="barcode"></div>
-          <button class="go" type="submit">Dispatch →</button>
+          <button class="go" type="submit" id="goBtn">Dispatch →</button>
         </div>
         <div class="confirm"><div class="label" style="color:#555">Order received</div><div class="cond" id="confNo">RH-0000</div><p style="margin-top:12px">Your operator will call you within the hour to confirm.<br>Then the unit's on the board.</p></div>
       </form>
@@ -394,7 +407,16 @@ function fare(){ const q = Math.max(1, +$('qty').value||1), h = Math.max(4, +$('
 ['model','qty','hrs','depot'].forEach(id => $(id).addEventListener('input', fare));
 $('model').addEventListener('input', () => { picked = null; $('unitNo').textContent = '—'; });
 $('depot').addEventListener('input', () => { depot = $('depot').value; renderBoard(); });
-$('ticket').onsubmit = e => { e.preventDefault(); $('confNo').textContent = 'RH-' + String(Math.floor(1000+Math.random()*9000)); $('ticket').classList.add('done'); };
+$('ticket').onsubmit = async e => { e.preventDefault();
+  const order = 'RH-' + String(Math.floor(1000+Math.random()*9000));
+  $('orderField').value = order; $('unitField').value = picked || '';
+  $('goBtn').disabled = true; $('formErr').textContent = '';
+  try {
+    const r = await fetch('/', { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:new URLSearchParams(new FormData($('ticket'))).toString() });
+    if (!r.ok) throw new Error(r.status);
+    $('confNo').textContent = order; $('ticket').classList.add('done');
+  } catch { $('formErr').textContent = 'Could not send. Please call 010 555 0147.'; }
+  finally { $('goBtn').disabled = false; } };
 
 // faq
 const FAQ = [
